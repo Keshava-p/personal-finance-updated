@@ -1,0 +1,16 @@
+{
+  "profile": {
+    "completeProfile": "Complete your profile to personalize your finance dashboard. Your salary, preferred currency, and language settings will help us provide accurate insights.",
+    "enterSalary": "Enter your monthly salary to get personalized financial insights.",
+    "salaryUpdated": "Salary updated successfully! Your dashboard is recalculated based on the new amount.",
+    "chooseCurrency": "Choose your preferred currency. All your expenses, goals, and reports will be displayed in the selected currency.",
+    "selectLanguage": "Select your preferred language. Your entire finance dashboard will run in the chosen language.",
+    "detailsSaved": "Profile details saved successfully!",
+    "salaryOnboardingHelper": "Complete your key details so we can tailor budgets, reports, and insights to match your financial goals."
+  },
+  "goal": {
+    "updateGoal": "Update your goal amount or adjust your target anytime.",
+    "progressText": "You have completed {{percent}}% of your goal!",
+    "goalUpdated": "Goal updated successfully."
+  }
+}
