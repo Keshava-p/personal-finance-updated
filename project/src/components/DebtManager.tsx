@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Plus, Edit2, Trash2, TrendingUp, AlertTriangle, Info, X } from 'lucide-react';
 import { useProfile } from '../hooks/useProfile';
 import { useCurrency } from '../hooks/useCurrency';
@@ -7,10 +6,8 @@ import { format } from 'date-fns';
 import { GlassCard } from './ui/GlassCard';
 import { NeonButton } from './ui/NeonButton';
 import { MetricsCard } from './ui/MetricsCard';
-import { AnimatedProgressBar } from './ui/AnimatedProgressBar';
-import { motion, AnimatePresence } from 'framer-motion';
-
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import { motion } from 'framer-motion';
+import api from '../services/api';
 
 interface Debt {
   _id: string;
@@ -43,7 +40,7 @@ interface DebtSummary {
 }
 
 export function DebtManager() {
-  const { profile } = useProfile();
+  // User authentication is handled by the api instance
   const { format: formatMoney, currency } = useCurrency();
   const [debts, setDebts] = useState<Debt[]>([]);
   const [summary, setSummary] = useState<DebtSummary | null>(null);
@@ -65,15 +62,14 @@ export function DebtManager() {
   const fetchDebts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_BASE}/debts`, {
-        headers: { 'x-user-id': profile.email || 'test@example.com' },
-      });
+      const response = await api.get('/debts');
       setDebts(response.data.debts || []);
       setSummary(response.data.summary || null);
     } catch (error) {
       console.error('Error fetching debts:', error);
       setDebts([]);
       setSummary(null);
+      alert('Failed to fetch debts. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -92,13 +88,9 @@ export function DebtManager() {
       };
 
       if (editingDebt) {
-        await axios.put(`${API_BASE}/debts/${editingDebt._id}`, payload, {
-          headers: { 'x-user-id': profile.email || 'test@example.com' },
-        });
+        await api.put(`/debts/${editingDebt._id}`, payload);
       } else {
-        await axios.post(`${API_BASE}/debts`, payload, {
-          headers: { 'x-user-id': profile.email || 'test@example.com' },
-        });
+        await api.post('/debts', payload);
       }
 
       setShowForm(false);
@@ -114,13 +106,11 @@ export function DebtManager() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this debt?')) return;
     try {
-      await axios.delete(`${API_BASE}/debts/${id}`, {
-        headers: { 'x-user-id': profile.email || 'test@example.com' },
-      });
+      await api.delete(`/debts/${id}`);
       fetchDebts();
     } catch (error) {
       console.error('Error deleting debt:', error);
-      alert('Failed to delete debt');
+      alert('Failed to delete debt. Please try again.');
     }
   };
 
@@ -141,34 +131,31 @@ export function DebtManager() {
     const amount = prompt("Enter amount paid:");
 
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-      return alert("Enter a valid amount");
+      return alert("Please enter a valid amount");
     }
 
     try {
-      await axios.put(`${API_BASE}/debts/${id}/pay`,
-        { amountPaid: Number(amount) },
-        { headers: { 'x-user-id': profile.email || 'test@example.com' } }
-      );
+      await api.put(`/debts/${id}/pay`, { amountPaid: Number(amount) });
       fetchDebts();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to update payment");
+    } catch (error) {
+      console.error('Error adding payment:', error);
+      alert("Failed to record payment. Please try again.");
     }
   };
 
   // 🚀 MARK AS PAID FUNCTION
   const markAsPaid = async (id: string) => {
+    if (!confirm('Mark this debt as fully paid?')) return;
     try {
-      await axios.put(`${API_BASE}/debts/${id}/paid`, {}, {
-        headers: { 'x-user-id': profile.email || 'test@example.com' }
-      });
+      await api.put(`/debts/${id}/paid`);
       fetchDebts();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to mark as paid");
+    } catch (error) {
+      console.error('Error marking as paid:', error);
+      alert("Failed to update debt status. Please try again.");
     }
   };
 
+  // @ts-ignore - Will be used later
   const getRecommendationColor = (level: string) => {
     switch (level) {
       case 'healthy': return 'text-green-400';
@@ -237,9 +224,108 @@ export function DebtManager() {
         </GlassCard>
       )}
 
+      {/* Add/Edit Debt Form */}
+      {showForm && (
+        <GlassCard className="p-6 mb-6">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-bold text-white">
+              {editingDebt ? 'Edit Debt' : 'Add New Debt'}
+            </h3>
+            <button
+              onClick={() => {
+                setShowForm(false);
+                setEditingDebt(null);
+              }}
+              className="text-white/60 hover:text-white"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-1">Debt Name</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-1">Principal Amount</label>
+                <input
+                  type="number"
+                  value={formData.principal}
+                  onChange={(e) => setFormData({...formData, principal: e.target.value})}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  min="0"
+                  step="0.01"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-1">Monthly Payment</label>
+                <input
+                  type="number"
+                  value={formData.monthlyPayment}
+                  onChange={(e) => setFormData({...formData, monthlyPayment: e.target.value})}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  min="0"
+                  step="0.01"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-1">APR (%)</label>
+                <input
+                  type="number"
+                  value={formData.apr}
+                  onChange={(e) => setFormData({...formData, apr: e.target.value})}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-white/80 mb-1">Notes (Optional)</label>
+              <textarea
+                value={formData.notes}
+                onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                rows={3}
+              />
+            </div>
+            <div className="flex justify-end space-x-3 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowForm(false);
+                  setEditingDebt(null);
+                }}
+                className="px-4 py-2 text-sm font-medium text-white/80 hover:text-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors text-sm font-medium"
+              >
+                {editingDebt ? 'Update Debt' : 'Add Debt'}
+              </button>
+            </div>
+          </form>
+        </GlassCard>
+      )}
+
       {/* Debt List */}
       <div className="space-y-4">
-        {debts.map((debt, idx) => (
+        {debts.map((debt) => (
           <motion.div key={debt._id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <GlassCard className="p-6">
 
@@ -305,7 +391,7 @@ export function DebtManager() {
                     </div>
                     <div>
                       <p className="text-white/60">Remaining</p>
-                      <p className="font-semibold text-white">{formatMoney(debt.projection.remainingPrincipal || debt.principal)}</p>
+                      <p className="font-semibold text-white">{formatMoney(debt.principal)}</p>
                     </div>
                   </div>
                 </GlassCard>

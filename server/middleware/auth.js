@@ -1,50 +1,107 @@
-// Simple auth stub - in production, use JWT
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+
+// Protect routes - require JWT
+export const protect = async (req, res, next) => {
+  let token;
+
+  // Check for token in Authorization header
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    try {
+      // Get token from header
+      token = req.headers.authorization.split(' ')[1];
+
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+
+      // Get user from token
+      req.user = await User.findById(decoded.id).select('-password');
+      req.userId = req.user._id;
+
+      next();
+    } catch (error) {
+      console.error('Token verification failed:', error);
+      res.status(401).json({ message: 'Not authorized, token failed' });
+    }
+  }
+
+  if (!token) {
+    res.status(401).json({ message: 'Not authorized, no token' });
+  }
+};
+
+// Role-based authorization
+export const authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({
+        message: `User role ${req.user.role} is not authorized to access this route`
+      });
+    }
+    next();
+  };
+};
+
+// For backward compatibility
 export const authenticate = async (req, res, next) => {
   try {
-    // For development: use userId from header or default to test user
+    // First try JWT authentication
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+      const user = await User.findById(decoded.id).select('-password');
+      if (user) {
+        req.user = user;
+        req.userId = user._id;
+        return next();
+      }
+    }
+    
+    // Fallback to legacy authentication
     const userIdOrEmail = req.headers['x-user-id'] || req.body.userId;
     
     if (!userIdOrEmail) {
-      // Create or get default test user
-      const User = (await import('../models/User.js')).default;
-      let user = await User.findOne({ email: 'test@example.com' });
-      if (!user) {
-        user = await User.create({
-          name: 'Test User',
-          email: 'test@example.com',
-          monthlySalary: 50000,
-          currencyPreference: 'INR',
-          languagePreference: 'en',
-        });
-      }
-      req.userId = user._id.toString();
-    } else {
-      // Check if it's an email or ObjectId
-      const User = (await import('../models/User.js')).default;
-      if (userIdOrEmail.includes('@')) {
-        // It's an email, find user by email
-        let user = await User.findOne({ email: userIdOrEmail });
+      // Create or get default test user (for development only)
+      if (process.env.NODE_ENV === 'development') {
+        let user = await User.findOne({ email: 'test@example.com' });
         if (!user) {
-          // Create user if doesn't exist
           user = await User.create({
-            name: userIdOrEmail.split('@')[0],
-            email: userIdOrEmail,
+            name: 'Test User',
+            email: 'test@example.com',
             monthlySalary: 50000,
             currencyPreference: 'INR',
             languagePreference: 'en',
           });
         }
         req.userId = user._id.toString();
-      } else {
-        // Assume it's an ObjectId
-        req.userId = userIdOrEmail;
+        req.user = user;
+        return next();
       }
+      return res.status(401).json({ message: 'Not authorized, no token or user ID provided' });
+    }
+
+    // Handle existing user ID or email
+    if (userIdOrEmail.includes('@')) {
+      const user = await User.findOne({ email: userIdOrEmail });
+      if (user) {
+        req.userId = user._id.toString();
+        req.user = user;
+        return next();
+      }
+    } else {
+      req.userId = userIdOrEmail;
+      const user = await User.findById(userIdOrEmail);
+      if (user) {
+        req.user = user;
+      }
+      return next();
     }
     
-    next();
+    res.status(401).json({ message: 'User not found' });
   } catch (error) {
     console.error('Auth error:', error);
-    res.status(500).json({ error: 'Authentication failed' });
+    res.status(500).json({ message: 'Authentication failed' });
   }
 };
 
