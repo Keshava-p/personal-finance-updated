@@ -128,3 +128,96 @@ export const deleteDebt = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+// Record a payment for a debt
+export const recordPayment = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { amount, principalPaid, interestPaid, notes } = req.body;
+
+    const debt = await Debt.findOne({ _id: req.params.id, userId });
+
+    if (!debt) {
+      return res.status(404).json({ success: false, error: "Debt not found" });
+    }
+
+    // Add payment to history
+    debt.paymentHistory.push({
+      amount,
+      principalPaid: principalPaid || amount,
+      interestPaid: interestPaid || 0,
+      notes,
+      date: new Date()
+    });
+
+    // Update current balance
+    if (debt.currentBalance) {
+      debt.currentBalance -= (principalPaid || amount);
+      if (debt.currentBalance <= 0) {
+        debt.currentBalance = 0;
+        debt.status = 'paid_off';
+      }
+    }
+
+    await debt.save();
+
+    res.json({ success: true, debt });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// Get debt payoff strategies (snowball vs avalanche)
+export const getPayoffStrategies = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const debts = await Debt.find({ userId, status: 'active' }).sort({ createdAt: -1 });
+
+    if (debts.length === 0) {
+      return res.json({ success: true, message: "No active debts found" });
+    }
+
+    // Snowball: Sort by balance (smallest first)
+    const snowball = [...debts].sort((a, b) =>
+      (a.currentBalance || a.principal) - (b.currentBalance || b.principal)
+    );
+
+    // Avalanche: Sort by APR (highest first)
+    const avalanche = [...debts].sort((a, b) => b.apr - a.apr);
+
+    // Calculate total interest for each strategy
+    const calculateTotalInterest = (sortedDebts) => {
+      let totalInterest = 0;
+      sortedDebts.forEach(debt => {
+        const balance = debt.currentBalance || debt.principal;
+        const projection = calculateDebtPayoff(balance, debt.monthlyPayment, debt.apr / 100);
+        totalInterest += projection.totalInterest || 0;
+      });
+      return totalInterest;
+    };
+
+    const snowballInterest = calculateTotalInterest(snowball);
+    const avalancheInterest = calculateTotalInterest(avalanche);
+
+    res.json({
+      success: true,
+      strategies: {
+        snowball: {
+          method: 'Pay smallest balance first',
+          order: snowball.map(d => ({ id: d._id, name: d.name, balance: d.currentBalance || d.principal })),
+          totalInterest: snowballInterest,
+          recommended: snowballInterest > avalancheInterest ? false : true
+        },
+        avalanche: {
+          method: 'Pay highest interest rate first',
+          order: avalanche.map(d => ({ id: d._id, name: d.name, apr: d.apr })),
+          totalInterest: avalancheInterest,
+          recommended: avalancheInterest <= snowballInterest ? true : false
+        },
+        interestSaved: Math.abs(snowballInterest - avalancheInterest)
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};

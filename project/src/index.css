@@ -1,8 +1,451 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Crazy UI - Currency Background & Neon Theme */
+/* ================================================================
+   DESIGN SYSTEM - PREMIUM FINTECH UI
+   ================================================================ */
+
+:root {
+  /* Typography */
+  --font-primary: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-secondary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Shadcn/UI Color Variables (HSL format) */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
+
+  /* Colors - Primary Palette (cyan-500) */
+  --color-primary: #06b6d4;
+  /* cyan-400 */
+  --color-primary-light: #22d3ee;
+  /* cyan-600 */
+  --color-primary-dark: #0891b2;
+
+  /* violet-500 */
+  --color-secondary: #8b5cf6;
+  /* violet-400 */
+  --color-secondary-light: #a78bfa;
+  /* violet-600 */
+  --color-secondary-dark: #7c3aed;
+
+  /* Status colors */
+  --color-accent: #ec4899;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  --gradient-secondary: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --gradient-cool: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
+
+  /* Shadows - Fintech Premium */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.18);
+  --shadow-2xl: 0 16px 48px rgba(0, 0, 0, 0.22);
+
+  /* Glow Effects */
+  --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.3);
+  --glow-violet: 0 0 20px rgba(139, 92, 246, 0.3);
+  --glow-pink: 0 0 20px rgba(236, 72, 153, 0.3);
+
+  /* Spacing Scale - 8px grid system */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Dark mode color overrides */
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    transition: background-color 200ms ease-in-out, color 200ms ease-in-out, border-color 200ms ease-in-out;
+  }
+
+  body {
+    font-family: var(--font-primary);
+    @apply antialiased;
+    min-height: 100vh;
+  }
+
+  /* Dark Mode (Default) */
+  body.dark,
+  body:not(.light) {
+    @apply bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white;
+  }
+
+  /* Light Mode */
+  body.light {
+    @apply bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 text-slate-900;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Light mode text colors */
+  .light h1,
+  .light h2,
+  .light h3,
+  .light h4,
+  .light h5,
+  .light h6 {
+    @apply text-slate-900;
+  }
+}
+
+@layer components {
+
+  /* Frosted Glass Utilities */
+  .glass-card {
+    @apply backdrop-blur-xl rounded-xl;
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Dark mode glass */
+  .dark .glass-card,
+  body:not(.light) .glass-card {
+    @apply bg-white/10 border border-white/10;
+  }
+
+  /* Light mode glass */
+  .light .glass-card {
+    @apply bg-white/80 border border-slate-200;
+  }
+
+  .glass-card-intense {
+    @apply backdrop-blur-2xl rounded-xl;
+    box-shadow: var(--shadow-xl);
+  }
+
+  .dark .glass-card-intense,
+  body:not(.light) .glass-card-intense {
+    @apply bg-white/15 border border-white/15;
+  }
+
+  .light .glass-card-intense {
+    @apply bg-white/90 border border-slate-300;
+  }
+
+  .glass-card-subtle {
+    @apply backdrop-blur-lg rounded-xl;
+    box-shadow: var(--shadow-md);
+  }
+
+  .dark .glass-card-subtle,
+  body:not(.light) .glass-card-subtle {
+    @apply bg-white/5 border border-white/5;
+  }
+
+  .light .glass-card-subtle {
+    @apply bg-white/60 border border-slate-100;
+  }
+
+  /* Premium Shadows */
+  .shadow-fintech-sm {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .shadow-fintech-md {
+    box-shadow: var(--shadow-md);
+  }
+
+  .shadow-fintech-lg {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .shadow-fintech-xl {
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  .gradient-text-secondary {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-secondary);
+  }
+
+  /* Premium Buttons */
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-semibold;
+    @apply bg-gradient-to-r from-cyan-500 to-blue-500;
+    @apply text-white shadow-lg;
+    @apply transition-all duration-200;
+    @apply hover:shadow-xl hover:scale-105;
+    @apply active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-semibold;
+    @apply transition-all duration-200;
+    @apply active:scale-95;
+  }
+
+  .dark .btn-secondary,
+  body:not(.light) .btn-secondary {
+    @apply bg-white/10 backdrop-blur-sm text-white border border-white/20;
+    @apply hover:bg-white/20 hover:border-white/30;
+  }
+
+  .light .btn-secondary {
+    @apply bg-slate-100 text-slate-900 border border-slate-300;
+    @apply hover:bg-slate-200 hover:border-slate-400;
+  }
+
+  .btn-ghost {
+    @apply px-6 py-3 rounded-xl font-semibold;
+    @apply transition-all duration-200;
+    @apply active:scale-95;
+  }
+
+  .dark .btn-ghost,
+  body:not(.light) .btn-ghost {
+    @apply text-white/80 hover:bg-white/10 hover:text-white;
+  }
+
+  .light .btn-ghost {
+    @apply text-slate-700 hover:bg-slate-100 hover:text-slate-900;
+  }
+
+  /* Premium Inputs */
+  .input-premium {
+    @apply w-full px-4 py-3 rounded-xl;
+    @apply backdrop-blur-sm;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50;
+  }
+
+  .dark .input-premium,
+  body:not(.light) .input-premium {
+    @apply bg-white/5 border border-white/20;
+    @apply text-white placeholder-white/40;
+    @apply hover:bg-white/10;
+  }
+
+  .light .input-premium {
+    @apply bg-white border border-slate-300;
+    @apply text-slate-900 placeholder-slate-400;
+    @apply hover:bg-slate-50;
+  }
+
+  /* Skeleton Loaders */
+  .skeleton {
+    @apply animate-pulse bg-white/10 rounded-lg;
+  }
+
+  .skeleton-text {
+    @apply h-4 bg-white/10 rounded animate-pulse;
+  }
+
+  .skeleton-circle {
+    @apply rounded-full bg-white/10 animate-pulse;
+  }
+}
+
+@layer utilities {
+
+  /* Animation Utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+  }
+
+  /* Hover Lift Effect */
+  .hover-lift {
+    @apply transition-transform duration-200;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-1;
+  }
+
+  /* Glow Effects */
+  .glow-cyan {
+    box-shadow: var(--glow-cyan);
+  }
+
+  .glow-violet {
+    box-shadow: var(--glow-violet);
+  }
+
+  .glow-pink {
+    box-shadow: var(--glow-pink);
+  }
+}
+
+/* ================================================================
+   ANIMATIONS
+   ================================================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Skeleton shimmer effect */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.05) 100%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+}
+
+/* ================================================================
+   LEGACY STYLES (Keeping for compatibility)
+   ================================================================ */
+
 .currency-bg {
   background-image: url('/currency-pattern.png');
   background-size: cover;
@@ -25,51 +468,42 @@
 .neon-button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   box-shadow: 0 0 20px rgba(102, 126, 234, 0.5),
-              0 0 40px rgba(102, 126, 234, 0.3),
-              0 0 60px rgba(102, 126, 234, 0.2);
+    0 0 40px rgba(102, 126, 234, 0.3),
+    0 0 60px rgba(102, 126, 234, 0.2);
   transition: all 0.3s ease;
 }
 
 .neon-button:hover {
   box-shadow: 0 0 30px rgba(102, 126, 234, 0.7),
-              0 0 50px rgba(102, 126, 234, 0.5),
-              0 0 70px rgba(102, 126, 234, 0.3);
+    0 0 50px rgba(102, 126, 234, 0.5),
+    0 0 70px rgba(102, 126, 234, 0.3);
   transform: translateY(-2px);
 }
 
 .neon-accent {
   color: #667eea;
   text-shadow: 0 0 10px rgba(102, 126, 234, 0.5),
-               0 0 20px rgba(102, 126, 234, 0.3);
+    0 0 20px rgba(102, 126, 234, 0.3);
 }
 
 .progress-bar-animated {
-  background: linear-gradient(90deg, 
-    #667eea 0%, 
-    #764ba2 50%, 
-    #f093fb 100%);
+  background: linear-gradient(90deg,
+      #667eea 0%,
+      #764ba2 50%,
+      #f093fb 100%);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
 .card-glow {
   box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1),
-              0 0 40px rgba(102, 126, 234, 0.05);
+    0 0 40px rgba(102, 126, 234, 0.05);
   transition: all 0.3s ease;
 }
 
 .card-glow:hover {
   box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2),
-              0 0 60px rgba(102, 126, 234, 0.1);
+    0 0 60px rgba(102, 126, 234, 0.1);
   transform: translateY(-4px);
 }
 
@@ -80,7 +514,6 @@
   background-size: cover;
 }
 
-/* Large Typography */
 .text-display {
   font-size: 4rem;
   font-weight: 800;
@@ -94,30 +527,38 @@
   }
 }
 
-/* Micro-animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ================================================================
+   ACCESSIBILITY
+   ================================================================ */
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.5s ease-out;
-}
-
-/* Accessibility - High Contrast Mode Support */
 @media (prefers-contrast: high) {
-  .neon-button {
+
+  .neon-button,
+  .btn-primary {
     box-shadow: none;
     border: 2px solid currentColor;
   }
-  
-  .neon-accent {
+
+  .neon-accent,
+  .gradient-text {
     text-shadow: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-cyan-400;
 }

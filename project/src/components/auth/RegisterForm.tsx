@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { NeonButton } from '../ui/NeonButton';
@@ -30,7 +29,7 @@ export const RegisterForm = () => {
 
   const validateForm = (): boolean => {
     const { name, email, password, confirmPassword } = formData;
-    
+
     if (!name || !email || !password || !confirmPassword) {
       setError('All fields are required');
       return false;
@@ -63,9 +62,9 @@ export const RegisterForm = () => {
     try {
       setIsLoading(true);
       const { name, email, password } = formData;
-      
+
       const result = await register(name, email, password);
-      
+
       if (result?.success) {
         // Clear form on success
         setFormData({
@@ -74,16 +73,17 @@ export const RegisterForm = () => {
           password: '',
           confirmPassword: ''
         });
-        // Redirect to dashboard
-        navigate('/dashboard', { replace: true });
+        // Show success message and redirect to login
+        alert('Account created successfully! Please login with your credentials.');
+        navigate('/login', { replace: true });
       } else {
         setError(result?.error || 'Registration failed. Please try again.');
       }
     } catch (error: any) {
       console.error('Registration error:', error);
       setError(
-        error.response?.data?.message || 
-        error.message || 
+        error.response?.data?.message ||
+        error.message ||
         'An unexpected error occurred. Please try again.'
       );
     } finally {
@@ -92,22 +92,22 @@ export const RegisterForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
-      <Card className="w-full max-w-md">
+    <div className="flex items-center justify-center min-h-screen p-4">
+      <Card className="w-full max-w-md glass-card">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">
+          <CardTitle className="text-2xl font-bold text-center text-white">
             Create an Account
           </CardTitle>
-          <CardDescription className="text-center">
+          <CardDescription className="text-center text-white/70">
             Enter your details to get started
           </CardDescription>
         </CardHeader>
-        
+
         <form onSubmit={handleSubmit} noValidate>
           <CardContent className="space-y-4">
             {error && (
-              <div 
-                className="p-3 text-sm text-red-700 bg-red-100 rounded-md" 
+              <div
+                className="p-3 text-sm text-red-200 bg-red-500/20 rounded-md border border-red-500/30"
                 role="alert"
               >
                 {error}
@@ -115,16 +115,16 @@ export const RegisterForm = () => {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name" className="text-white font-medium">Full Name</Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/60 z-10" />
+                <input
                   id="name"
                   type="text"
                   placeholder="John Doe"
                   value={formData.name}
                   onChange={handleChange}
-                  className="pl-10"
+                  className="w-full h-11 pl-10 pr-4 py-2 text-white bg-white/10 border-2 border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all relative z-0 hover:bg-white/15"
                   required
                   disabled={isLoading}
                   autoComplete="name"
@@ -133,16 +133,16 @@ export const RegisterForm = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-white font-medium">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/60 z-10" />
+                <input
                   id="email"
                   type="email"
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={handleChange}
-                  className="pl-10"
+                  className="w-full h-11 pl-10 pr-4 py-2 text-white bg-white/10 border-2 border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all relative z-0 hover:bg-white/15"
                   required
                   disabled={isLoading}
                   autoComplete="email"
@@ -151,16 +151,16 @@ export const RegisterForm = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-white font-medium">Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/60 z-10" />
+                <input
                   id="password"
                   type="password"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={handleChange}
-                  className="pl-10"
+                  className="w-full h-11 pl-10 pr-4 py-2 text-white bg-white/10 border-2 border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all relative z-0 hover:bg-white/15"
                   required
                   disabled={isLoading}
                   autoComplete="new-password"
@@ -169,16 +169,16 @@ export const RegisterForm = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword" className="text-white font-medium">Confirm Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/60 z-10" />
+                <input
                   id="confirmPassword"
                   type="password"
                   placeholder="••••••••"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="pl-10"
+                  className="w-full h-11 pl-10 pr-4 py-2 text-white bg-white/10 border-2 border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all relative z-0 hover:bg-white/15"
                   required
                   disabled={isLoading}
                   autoComplete="new-password"
@@ -186,18 +186,18 @@ export const RegisterForm = () => {
               </div>
             </div>
 
-            <NeonButton 
-              type="submit" 
-              className="w-full mt-4" 
+            <NeonButton
+              type="submit"
+              className="w-full mt-4"
               disabled={isLoading}
               aria-busy={isLoading}
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
-                  <svg 
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
                     viewBox="0 0 24 24"
                   >
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -208,13 +208,13 @@ export const RegisterForm = () => {
               ) : 'Create Account'}
             </NeonButton>
           </CardContent>
-          
+
           <CardFooter className="flex flex-col space-y-4 pt-2">
-            <p className="text-sm text-center text-gray-600">
+            <p className="text-sm text-center text-white/80">
               Already have an account?{' '}
-              <Link 
-                to="/login" 
-                className="font-medium text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+              <Link
+                to="/login"
+                className="font-medium text-cyan-400 hover:text-cyan-300 hover:underline focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 rounded"
               >
                 Sign in
               </Link>

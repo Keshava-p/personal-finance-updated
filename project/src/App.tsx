@@ -12,6 +12,7 @@ import { Settings } from './pages/Settings';
 import { Budget } from './pages/Budget';
 import { Profile } from './pages/Profile';
 import { Debts } from './pages/Debts';
+import { StockPrediction } from './pages/StockPrediction';
 import { VoiceAssistant } from './components/VoiceAssistant';
 import { Spinner } from './Spinner';
 import ForgotPassword from "./pages/ForgotPassword.tsx";
@@ -39,7 +40,7 @@ function AppContent() {
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
-      
+
       {/* Protected Routes */}
       <Route
         path="/"
@@ -119,6 +120,17 @@ function AppContent() {
         }
       />
       <Route
+        path="/stocks"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <StockPrediction />
+              <VoiceAssistant />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/settings"
         element={
           <ProtectedRoute>
@@ -129,7 +141,7 @@ function AppContent() {
           </ProtectedRoute>
         }
       />
-      
+
       {/* Redirect to dashboard for unknown routes */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

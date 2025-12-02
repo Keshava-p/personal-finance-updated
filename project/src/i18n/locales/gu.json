@@ -1,17 +1,206 @@
 {
-  "profile": {
-    "completeProfile": "તમારા નાણાકીય ડેશબોર્ડને વ્યક્તિગત બનાવવા માટે તમારી પ્રોફાઇલ પૂર્ણ કરો. તમારો પગાર, પ્રાથમિક ચલણ અને ભાષા સેટિંગ્સ ચોક્કસ સંકેતો પ્રદાન કરવામાં મદદ કરશે.",
-    "enterSalary": "વ્યક્તિગત નાણાકીય સંકેતો માટે તમારો માસિક પગાર દાખલ કરો.",
-    "salaryUpdated": "પગાર સફળતાપૂર્વક અપડેટ થયો! તમારું ડેશબોર્ડ નવી રકમના આધારે ફરીથી ગણવામાં આવ્યું છે.",
-    "chooseCurrency": "તમારું પ્રાથમિક ચલણ પસંદ કરો. તમારા બધા ખર્ચ, લક્ષ્યો અને અહેવાલો પસંદ કરેલ ચલણમાં પ્રદર્શિત થશે.",
-    "selectLanguage": "તમારી પ્રાથમિક ભાષા પસંદ કરો. તમારું સંપૂર્ણ નાણાકીય ડેશબોર્ડ પસંદ કરેલ ભાષામાં ચાલશે.",
-    "detailsSaved": "પ્રોફાઇલ વિગતો સફળતાપૂર્વક સાચવી!",
-    "salaryOnboardingHelper": "તમારી મુખ્ય વિગતો પૂર્ણ કરો જેથી અમે તમારા નાણાકીય લક્ષ્યો સાથે મેળ ખાતા બજેટ, અહેવાલો અને સંકેતો ડિઝાઇન કરી શકીએ."
+  "nav": {
+    "dashboard": "ડેશબોર્ડ",
+    "expenses": "ખર્ચ ",
+    "goals": "લક્ષ્યો",
+    "debts": "દેવું",
+    "reports": "રિપોર્ટ",
+    "budget": "બજેટ",
+    "profile": "પ્રોફાઇલ",
+    "settings": "સેટિંગ્સ"
+  },
+  "common": {
+    "save": "સેવ કરો",
+    "cancel": "રદ કરો",
+    "edit": "એડિટ કરો",
+    "delete": "ડીલીટ કરો",
+    "add": "એડ",
+    "update": "અદ્યતન બનાવો",
+    "submit": "સબમિટ કરો ",
+    "close": "બંધ કરો",
+    "confirm": "ખાતરી",
+    "back": "પાછળ",
+    "next": "આગળ",
+    "loading": "લોડ થઈ રહ્યું છે",
+    "error": "ભૂલ",
+    "success": "સફળ"
+  },
+  "auth": {
+    "login": "લોગીન",
+    "logout": "લોગ આઉટ",
+    "register": "રજીસ્ટર",
+    "email": "ઇમેઇલ",
+    "password": "પાસવર્ડ",
+    "confirmPassword": "પાસવર્ડ",
+    "forgotPassword": "પાસવર્ડ ભૂલી ગયા છો?",
+    "resetPassword": "પાસવર્ડ ફરીથી સ્થાપિત કરો",
+    "signIn": "સાઇન ઇન",
+    "signUp": "સાઇન અપ કરો",
+    "alreadyHaveAccount": "પહેલેથી જ એકાઉન્ટ છે?",
+    "dontHaveAccount": "શું હજી સુધી કોઈ એકાઉન્ટ નથી? "
+  },
+  "dashboard": {
+    "title": "ડેશબોર્ડ",
+    "welcome": "સ્વાગત પાછા",
+    "totalExpenses": "કુલ ખર્ચ",
+    "monthlyExpenses": "માસિક ખર્ચ",
+    "netSavings": "ચોખ્ખી બચત",
+    "recentTransactions": "તાજેતરના વ્યવહારો",
+    "insights": "ઇનસાઇટ ",
+    "noData": "કોઈ માહિતી ઉપલબ્ધ નથી!"
+  },
+  "expenses": {
+    "title": "ખર્ચ ",
+    "addExpense": "ખર્ચ ઉમેરો",
+    "editExpense": "ખર્ચમાં ફેરફાર કરો",
+    "deleteExpense": "ખર્ચ કાઢી નાખો",
+    "amount": "રકમ",
+    "category": "કેટેગરી",
+    "description": "વર્ણન",
+    "date": "તારીખ",
+    "currency": "કરન્સી",
+    "noExpenses": "હજી સુધી કોઈ ખર્ચ નોંધાયો નથી",
+    "totalSpent": "કુલ ફાળવેલ",
+    "thisMonth": "આ મહિને",
+    "categories": {
+      "food": "ખોરાક",
+      "transport": "માર્ગ-પરિવહન ",
+      "entertainment": "મનોરંજન",
+      "utilities": "ઉપયોગી વસ્તુઓName",
+      "healthcare": "આરોગ્ય સંભાળ",
+      "shopping": "ખરીદારી કરી રહ્યા છે",
+      "education": "ભણતર ",
+      "other": "અન્ય"
+    }
+  },
+  "goals": {
+    "title": "લક્ષ્યો",
+    "addGoal": "લક્ષ્ય ઉમેરો",
+    "editGoal": "લક્ષ્યમાં ફેરફાર કરો",
+    "deleteGoal": "લક્ષ્ય કાઢી નાખો",
+    "goalName": "લક્ષ્યનું નામ",
+    "targetAmount": "લક્ષ્યાંક રકમ",
+    "currentSaved": "વર્તમાન સાચવેલ",
+    "deadline": "સમયમર્યાદા",
+    "progress": "પ્રગતિ",
+    "noGoals": "હજી સુધી કોઈ ગોલ સેટ નથી",
+    "completed": "પૂર્ણ થયું START (Due DUE)",
+    "inProgress": "પ્રગતિમાં છે"
   },
   "goal": {
-    "updateGoal": "તમારી લક્ષ્ય રકમ અપડેટ કરો અથવા કોઈપણ સમયે તમારું લક્ષ્ય સમાયોજિત કરો.",
-    "progressText": "તમે તમારા લક્ષ્યનું {{percent}}% પૂર્ણ કર્યું છે!",
-    "goalUpdated": "લક્ષ્ય સફળતાપૂર્વક અપડેટ થયું."
+    "goalUpdated": "સફળતાપૂર્વક સુધારેલ છે"
+  },
+  "debts": {
+    "title": "દેવું",
+    "addDebt": "દેવું ઉમેરો",
+    "editDebt": "દેવું સંપાદિત કરો",
+    "deleteDebt": "દેવું કાઢી નાખો",
+    "debtName": "દેવું નામ",
+    "totalAmount": "કુલ રકમ: $",
+    "remainingAmount": "બાકી રકમ",
+    "interestRate": "વ્યાજ દર",
+    "dueDate": "પહેલાની તારીખ:",
+    "noDebts": "કોઈ દેવું નોંધાયું નથી",
+    "paidOff": "ચૂકવેલ",
+    "active": "સક્રિય"
+  },
+  "budget": {
+    "title": "બજેટ",
+    "setBudget": "બજેટ સેટ કરો",
+    "editBudget": "બજેટ સંપાદિત કરો",
+    "monthlyBudget": "માસિક બજેટ",
+    "spent": "ખર્ચ",
+    "remaining": "બાકીનું",
+    "exceeded": "ઓળંગી ગયા",
+    "onTrack": "ટ્રેક પર",
+    "noBudget": "કોઈ બજેટ સેટ નથી"
+  },
+  "reports": {
+    "title": "રિપોર્ટ",
+    "generateReport": "રિપોર્ટ બનાવો",
+    "expenseReport": "ખર્ચ અહેવાલ",
+    "incomeReport": "આવક અહેવાલ",
+    "savingsReport": "બચત અહેવાલ",
+    "categoryBreakdown": "કેટેગરી બ્રેકડાઉન",
+    "monthlyTrend": "માસિક વલણ",
+    "yearlyOverview": "વાર્ષિક ઝાંખી"
+  },
+  "profile": {
+    "title": "પ્રોફાઇલ",
+    "editProfile": "પ્રોફાઇલ સંપાદિત કરો",
+    "name": "નામ",
+    "email": "ઇમેઇલ",
+    "phone": "ફોન",
+    "monthlySalary": "માસિક પગાર",
+    "incomeType": "આવકનો પ્રકાર",
+    "taxRegime": "કર વ્યવસ્થા",
+    "currencyPreference": "ચલણ પસંદગી",
+    "detailsSaved": "પ્રોફાઇલ વિગતો સફળતાપૂર્વક સાચવવામાં આવી",
+    "updateSuccess": "પ્રોફાઇલ છબી સફળતાપૂર્વક અપડેટ થઈ"
+  },
+  "settings": {
+    "title": "સેટિંગ્સ",
+    "general": "સામાન્ય ",
+    "notifications": "(અટકાવેલ)% 1% 1 is the name of the job, can be things like Copying, deleting, moving",
+    "security": "સીક્યોરીટી",
+    "privacy": "ગોપનીયતા",
+    "languagePreference": "ભાષાની પસંદગી",
+    "themePreference": "થીમ પસંદગી",
+    "darkMode": "ડાર્ક મોડ",
+    "lightMode": "લાઇટ મોડ",
+    "systemDefault": "સિસ્ટમ મૂળભૂત",
+    "enableNotifications": "સૂચનાઓ સક્ષમ કરો",
+    "disableNotifications": "સૂચનાઓ અક્ષમ કરો",
+    "changePassword": "પાસવર્ડ બદલો",
+    "deleteAccount": "ખાતાને કાઢી નાંખો",
+    "exportData": "માહિતી નિકાસ કરો (E)...",
+    "importData": "માહિતી આયાત કરો",
+    "backupData": "બેકઅપ ડેટા",
+    "restoreData": "ડેટા પુનઃસ્થાપિત કરો",
+    "goToProfile": "મારી પ્રોફાઇલ પર જાઓ'",
+    "languageDescription": "એપ્લિકેશન માટે તમારી પસંદીદા ભાષા પસંદ કરો"
+  },
+  "voice": {
+    "listening": "લિસનીંગ",
+    "startListening": "વૉઇસ ઇનપુટ શરૂ કરો",
+    "stopListening": "વૉઇસ ઇનપુટ બંધ કરો",
+    "notSupported": "તમારા બ્રાઉઝરમાં વૉઇસ ઇનપુટ સપોર્ટેડ નથી",
+    "error": "વૉઇસ ઇનપુટ ભૂલ"
+  },
+  "currency": {
+    "inr": "ભારતીય રુપીName",
+    "usd": "US ડૉલર",
+    "eur": "યુરોName",
+    "gbp": "બ્રિટિશ પાઉન્ડ (£)",
+    "jpy": "જાપાનીઝ યેનName",
+    "cny": "ચાઈનિઝ યુઆનName",
+    "aud": "ઓસ્ટ્રેલિઅન ડોલરName",
+    "cad": "કેનેડિઅન ડોલરName"
+  },
+  "languages": {
+    "en": "Bin aveji",
+    "hi": "હિન્દી (હિન્દી)",
+    "kn": "ગુજરાતી(કન્નડ)",
+    "ta": "தமிழ் (તમિલ)",
+    "te": "અંગ્રેજી (તેલુગુ)",
+    "ml": "ગુજરાતી (મલયાલમ)",
+    "mr": "मराઠી (મરાઠી)",
+    "bn": "બંગાળી (બંગાળી)",
+    "gu": "ગુજરાતી (ગુજરાતી)"
+  },
+  "notifications": {
+    "budgetExceeded": "આ મહિના માટે બજેટ વટાવી ગયું છે",
+    "goalAchieved": "અભિનંદન! લક્ષ્ય પ્રાપ્ત થયું",
+    "debtDueSoon": "દેવાની ચુકવણી ટૂંક સમયમાં બાકી છે",
+    "newExpenseAdded": "નવો ખર્ચ ઉમેરવામાં આવ્યો",
+    "profileUpdated": "Profile updated successfully"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "networkError": "Network error. Please check your connection.",
+    "invalidInput": "Invalid input. Please check your data.",
+    "unauthorized": "You are not authorized to perform this action.",
+    "notFound": "The requested resource was not found.",
+    "serverError": "Server error. Please try again later."
   }
 }
-

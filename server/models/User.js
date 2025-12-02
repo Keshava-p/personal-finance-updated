@@ -33,11 +33,13 @@ const userSchema = new mongoose.Schema({
   },
   currencyPreference: {
     type: String,
-    default: 'USD'
+    default: 'INR',
+    enum: ['INR', 'USD', 'EUR', 'GBP', 'AED', 'CAD', 'AUD', 'SGD', 'JPY']
   },
   languagePreference: {
     type: String,
-    default: 'en'
+    default: 'en',
+    enum: ['en', 'hi', 'ta', 'te', 'kn', 'ml', 'mr', 'gu', 'bn']
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
@@ -45,14 +47,16 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+}, {
+  timestamps: true
 });
 
 // Encrypt password using bcrypt
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
-  
+
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -63,12 +67,16 @@ userSchema.pre('save', async function(next) {
 });
 
 // Match user entered password to hashed password in database
-userSchema.methods.matchPassword = async function(enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  if (!this.password) {
+    console.error('Error: matchPassword called but this.password is undefined');
+    return false;
+  }
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
 // Generate and hash password reset token
-userSchema.methods.getResetPasswordToken = function() {
+userSchema.methods.getResetPasswordToken = function () {
   // Generate token
   const resetToken = crypto.randomBytes(20).toString('hex');
 

@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes.js";
 import salaryRoutes from "./routes/salaryRoutes.js";
+import debtRoutes from "./routes/debtRoutes.js";
+import billRoutes from "./routes/billRoutes.js";
+import stockRoutes from "./routes/stockRoutes.js";
 
 dotenv.config();
 
@@ -26,6 +29,9 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/salary", salaryRoutes);
+app.use("/api/debts", debtRoutes);
+app.use("/api/bills", billRoutes);
+app.use("/api/stock", stockRoutes);
 
 // Test
 app.get("/api/test", (req, res) => {

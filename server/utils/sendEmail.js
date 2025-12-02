@@ -3,6 +3,10 @@ import nodemailer from "nodemailer";
 
 const sendEmail = async (to, subject, message) => {
   try {
+    if (!process.env.EMAIL_USERNAME || !process.env.EMAIL_PASSWORD) {
+      console.warn("⚠️  Email credentials missing in .env file (EMAIL_USERNAME or EMAIL_PASSWORD)");
+    }
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {

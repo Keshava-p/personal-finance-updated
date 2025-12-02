@@ -1,16 +1,210 @@
 {
-  "profile": {
-    "completeProfile": "Complete your profile to personalize your finance dashboard. Your salary, preferred currency, and language settings will help us provide accurate insights.",
-    "enterSalary": "Enter your monthly salary to get personalized financial insights.",
-    "salaryUpdated": "Salary updated successfully! Your dashboard is recalculated based on the new amount.",
-    "chooseCurrency": "Choose your preferred currency. All your expenses, goals, and reports will be displayed in the selected currency.",
-    "selectLanguage": "Select your preferred language. Your entire finance dashboard will run in the chosen language.",
-    "detailsSaved": "Profile details saved successfully!",
-    "salaryOnboardingHelper": "Complete your key details so we can tailor budgets, reports, and insights to match your financial goals."
-  },
-  "goal": {
-    "updateGoal": "Update your goal amount or adjust your target anytime.",
-    "progressText": "You have completed {{percent}}% of your goal!",
-    "goalUpdated": "Goal updated successfully."
-  }
+    "nav": {
+        "dashboard": "Dashboard",
+        "expenses": "Expenses",
+        "goals": "Goals",
+        "debts": "Debts",
+        "reports": "Reports",
+        "budget": "Budget",
+        "stockPrediction": "Stock Prediction",
+        "profile": "Profile",
+        "settings": "Settings"
+    },
+    "common": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "delete": "Delete",
+        "add": "Add",
+        "update": "Update",
+        "submit": "Submit",
+        "close": "Close",
+        "confirm": "Confirm",
+        "back": "Back",
+        "next": "Next",
+        "loading": "Loading...",
+        "error": "Error",
+        "success": "Success"
+    },
+    "auth": {
+        "login": "Login",
+        "logout": "Logout",
+        "register": "Register",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "forgotPassword": "Forgot Password?",
+        "resetPassword": "Reset Password",
+        "signIn": "Sign In",
+        "signUp": "Sign Up",
+        "alreadyHaveAccount": "Already have an account?",
+        "dontHaveAccount": "Don't have an account?"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "welcome": "Welcome back",
+        "totalExpenses": "Total Expenses",
+        "monthlyExpenses": "Monthly Expenses",
+        "netSavings": "Net Savings",
+        "savings": "Savings",
+        "thisMonth": "This Month",
+        "recentTransactions": "Recent Transactions",
+        "insights": "Insights",
+        "noData": "No data available"
+    },
+    "expenses": {
+        "title": "Expenses",
+        "addExpense": "Add Expense",
+        "editExpense": "Edit Expense",
+        "deleteExpense": "Delete Expense",
+        "amount": "Amount",
+        "category": "Category",
+        "description": "Description",
+        "date": "Date",
+        "currency": "Currency",
+        "noExpenses": "No expenses recorded yet",
+        "totalSpent": "Total Spent",
+        "thisMonth": "This Month",
+        "categories": {
+            "food": "Food",
+            "transport": "Transport",
+            "entertainment": "Entertainment",
+            "utilities": "Utilities",
+            "healthcare": "Healthcare",
+            "shopping": "Shopping",
+            "education": "Education",
+            "other": "Other"
+        }
+    },
+    "goals": {
+        "title": "Goals",
+        "addGoal": "Add Goal",
+        "editGoal": "Edit Goal",
+        "deleteGoal": "Delete Goal",
+        "goalName": "Goal Name",
+        "targetAmount": "Target Amount",
+        "currentSaved": "Current Saved",
+        "deadline": "Deadline",
+        "progress": "Progress",
+        "noGoals": "No goals set yet",
+        "completed": "Completed",
+        "inProgress": "In Progress"
+    },
+    "goal": {
+        "goalUpdated": "Goal updated successfully"
+    },
+    "debts": {
+        "title": "Debts",
+        "addDebt": "Add Debt",
+        "editDebt": "Edit Debt",
+        "deleteDebt": "Delete Debt",
+        "debtName": "Debt Name",
+        "totalAmount": "Total Amount",
+        "remainingAmount": "Remaining Amount",
+        "interestRate": "Interest Rate",
+        "dueDate": "Due Date",
+        "noDebts": "No debts recorded",
+        "paidOff": "Paid Off",
+        "active": "Active"
+    },
+    "budget": {
+        "title": "Budget",
+        "setBudget": "Set Budget",
+        "editBudget": "Edit Budget",
+        "monthlyBudget": "Monthly Budget",
+        "spent": "Spent",
+        "remaining": "Remaining",
+        "exceeded": "Exceeded",
+        "onTrack": "On Track",
+        "noBudget": "No budget set"
+    },
+    "reports": {
+        "title": "Reports",
+        "generateReport": "Generate Report",
+        "expenseReport": "Expense Report",
+        "incomeReport": "Income Report",
+        "savingsReport": "Savings Report",
+        "categoryBreakdown": "Category Breakdown",
+        "monthlyTrend": "Monthly Trend",
+        "yearlyOverview": "Yearly Overview"
+    },
+    "profile": {
+        "title": "Profile",
+        "editProfile": "Edit Profile",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "monthlySalary": "Monthly Salary",
+        "incomeType": "Income Type",
+        "taxRegime": "Tax Regime",
+        "currencyPreference": "Currency Preference",
+        "detailsSaved": "Profile details saved successfully",
+        "updateSuccess": "Profile updated successfully"
+    },
+    "settings": {
+        "title": "Settings",
+        "general": "General",
+        "notifications": "Notifications",
+        "security": "Security",
+        "privacy": "Privacy",
+        "languagePreference": "Language Preference",
+        "themePreference": "Theme Preference",
+        "darkMode": "Dark Mode",
+        "lightMode": "Light Mode",
+        "systemDefault": "System Default",
+        "enableNotifications": "Enable Notifications",
+        "disableNotifications": "Disable Notifications",
+        "changePassword": "Change Password",
+        "deleteAccount": "Delete Account",
+        "exportData": "Export Data",
+        "importData": "Import Data",
+        "backupData": "Backup Data",
+        "restoreData": "Restore Data",
+        "goToProfile": "Go to Profile",
+        "languageDescription": "Select your preferred language for the application",
+        "monthlySalary": "Monthly Salary"
+    },
+    "voice": {
+        "listening": "Listening...",
+        "startListening": "Start Voice Input",
+        "stopListening": "Stop Voice Input",
+        "notSupported": "Voice input is not supported in your browser",
+        "error": "Voice input error"
+    },
+    "currency": {
+        "inr": "Indian Rupee (₹)",
+        "usd": "US Dollar ($)",
+        "eur": "Euro (€)",
+        "gbp": "British Pound (£)",
+        "jpy": "Japanese Yen (¥)",
+        "cny": "Chinese Yuan (¥)",
+        "aud": "Australian Dollar ($)",
+        "cad": "Canadian Dollar ($)"
+    },
+    "languages": {
+        "en": "English",
+        "hi": "हिन्दी (Hindi)",
+        "kn": "ಕನ್ನಡ (Kannada)",
+        "ta": "தமிழ் (Tamil)",
+        "te": "తెలుగు (Telugu)",
+        "ml": "മലയാളം (Malayalam)",
+        "mr": "मराठी (Marathi)",
+        "bn": "বাংলা (Bengali)",
+        "gu": "ગુજરાતી (Gujarati)"
+    },
+    "notifications": {
+        "budgetExceeded": "Budget exceeded for this month",
+        "goalAchieved": "Congratulations! Goal achieved",
+        "debtDueSoon": "Debt payment due soon",
+        "newExpenseAdded": "New expense added",
+        "profileUpdated": "Profile updated successfully"
+    },
+    "errors": {
+        "generic": "Something went wrong. Please try again.",
+        "networkError": "Network error. Please check your connection.",
+        "invalidInput": "Invalid input. Please check your data.",
+        "unauthorized": "You are not authorized to perform this action.",
+        "notFound": "The requested resource was not found.",
+        "serverError": "Server error. Please try again later."
+    }
 }

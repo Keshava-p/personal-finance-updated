@@ -1,17 +1,206 @@
 {
-  "profile": {
-    "completeProfile": "आपले वित्त डॅशबोर्ड वैयक्तिक करण्यासाठी आपली प्रोफाइल पूर्ण करा. आपला पगार, प्राधान्यकृत चलन आणि भाषा सेटिंग्ज अचूक अंतर्दृष्टी प्रदान करण्यात मदत करतील.",
-    "enterSalary": "वैयक्तिक वित्तीय अंतर्दृष्टीसाठी आपला मासिक पगार प्रविष्ट करा.",
-    "salaryUpdated": "पगार यशस्वीरित्या अद्यतनित केला! आपले डॅशबोर्ड नवीन रकमेच्या आधारे पुन्हा मोजले गेले.",
-    "chooseCurrency": "आपले प्राधान्यकृत चलन निवडा. आपले सर्व खर्च, उद्दिष्टे आणि अहवाल निवडलेल्या चलनात प्रदर्शित केले जातील.",
-    "selectLanguage": "आपली प्राधान्यकृत भाषा निवडा. आपले संपूर्ण वित्त डॅशबोर्ड निवडलेल्या भाषेत चालेल.",
-    "detailsSaved": "प्रोफाइल तपशील यशस्वीरित्या जतन केले!",
-    "salaryOnboardingHelper": "आपले मुख्य तपशील पूर्ण करा जेणेकरून आम्ही आपल्या वित्तीय उद्दिष्टांशी जुळणारे अंदाजपत्रक, अहवाल आणि अंतर्दृष्टी डिझाइन करू शकू."
+  "nav": {
+    "dashboard": "नियंत्रण पटल",
+    "expenses": "खर्च",
+    "goals": "उद्दिष्टे",
+    "debts": "कर्ज",
+    "reports": "अहवाल",
+    "budget": "अंदाजपत्रक ",
+    "profile": "प्रोफाइल",
+    "settings": "सेटिंग्ज"
+  },
+  "common": {
+    "save": "सुरक्षीत करा",
+    "cancel": "रद्द करा",
+    "edit": "एडिट करा",
+    "delete": "काढून टाका",
+    "add": "ऍड करा",
+    "update": "अपडेट करा",
+    "submit": "सबमिट करा",
+    "close": "बंद",
+    "confirm": "पुष्टी करा",
+    "back": "परत",
+    "next": "नंतर",
+    "loading": "भारण… कृपया थांबा…",
+    "error": "त्रुटी",
+    "success": "यश"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "logout": "बाहेर पडणे",
+    "register": "नोंदणी करा",
+    "email": "ईमेल",
+    "password": "संकेतशब्द",
+    "confirmPassword": "पासवर्डची पुष्टी करा",
+    "forgotPassword": "संकेतशब्द विसरलात?",
+    "resetPassword": "पासवर्ड रीसेट करा",
+    "signIn": "साइन इन करा",
+    "signUp": "साइन अप करा",
+    "alreadyHaveAccount": "आधीपासून खाते आहे?",
+    "dontHaveAccount": "खाते नाही?"
+  },
+  "dashboard": {
+    "title": "नियंत्रण पटल",
+    "welcome": "तुमचे पुन्हा स्वागत आहे",
+    "totalExpenses": "एकूण खर्च",
+    "monthlyExpenses": "मासिक खर्च",
+    "netSavings": "निव्वळ बचत",
+    "recentTransactions": "अलीकडील व्यवहार",
+    "insights": "अंतर्दृष्टी",
+    "noData": "कोणताही डेटा उपलब्ध नाही"
+  },
+  "expenses": {
+    "title": "खर्च",
+    "addExpense": "खर्च जोडा",
+    "editExpense": "खर्च संपादित करा",
+    "deleteExpense": "खर्च हटवा",
+    "amount": "रक्कम",
+    "category": "वर्ग",
+    "description": "वर्णन",
+    "date": "दिनांक",
+    "currency": "चलन",
+    "noExpenses": "अद्याप कोणत्याही खर्चाची नोंद केलेली नाही",
+    "totalSpent": "एकूण खर्च",
+    "thisMonth": "हा महिना",
+    "categories": {
+      "food": "अन्न",
+      "transport": "वाहतूक",
+      "entertainment": "मनोरंजन",
+      "utilities": "उपकार्यक्रमName",
+      "healthcare": "आरोग्यसेवा",
+      "shopping": "खरेदी",
+      "education": "शिक्षण",
+      "other": "अन्य"
+    }
+  },
+  "goals": {
+    "title": "उद्दिष्टे",
+    "addGoal": "लक्ष्य जोडा",
+    "editGoal": "लक्ष्य संपादित करा",
+    "deleteGoal": "लक्ष्य हटवा",
+    "goalName": "उद्दीष्टाचे नाव",
+    "targetAmount": "लक्ष्य रक्कम",
+    "currentSaved": "सध्याचे सेव्ह केलेले",
+    "deadline": "अंतिम मुदत",
+    "progress": "प्रक्रिया",
+    "noGoals": "अद्याप कोणतीही उद्दीष्टे सेट केलेली नाहीत",
+    "completed": "पूर्ण केले",
+    "inProgress": "प्रगती मध्ये"
   },
   "goal": {
-    "updateGoal": "आपले उद्दिष्ट रक्कम अद्यतनित करा किंवा कोणत्याही वेळी आपले उद्दिष्ट समायोजित करा.",
-    "progressText": "आपण आपल्या उद्दिष्टाचे {{percent}}% पूर्ण केले आहे!",
-    "goalUpdated": "उद्दिष्ट यशस्वीरित्या अद्यतनित केले."
+    "goalUpdated": "यशस्वीरित्या अद्यतनित केले."
+  },
+  "debts": {
+    "title": "कर्ज",
+    "addDebt": "कर्ज जोडा",
+    "editDebt": "कर्ज संपादित करा",
+    "deleteDebt": "कर्ज हटवा",
+    "debtName": "कर्जाचे नाव",
+    "totalAmount": "एकूण रक्कम",
+    "remainingAmount": "शिल्लक रक्कम",
+    "interestRate": "व्याजदर",
+    "dueDate": "देय तारीख ",
+    "noDebts": "कर्जाची नोंद नाही",
+    "paidOff": "पेड ऑफ",
+    "active": "सक्रिय"
+  },
+  "budget": {
+    "title": "अंदाजपत्रक ",
+    "setBudget": "बजेट सेट करा",
+    "editBudget": "अंदाजपत्रक संपादित करा",
+    "monthlyBudget": "मासिक अर्थसंकल्प",
+    "spent": "खर्च केला",
+    "remaining": "{0} उर्वरित",
+    "exceeded": "ओलांडले",
+    "onTrack": "ट्रॅकवर",
+    "noBudget": "अर्थसंकल्पीय तरतूद नाही"
+  },
+  "reports": {
+    "title": "अहवाल",
+    "generateReport": "अहवाल व्युत्पन्न करा",
+    "expenseReport": "खर्चाचा अहवाल",
+    "incomeReport": "उत्पन्न अहवाल",
+    "savingsReport": "बचत अहवाल",
+    "categoryBreakdown": "श्रेणी विश्लेषण",
+    "monthlyTrend": "मासिक कल",
+    "yearlyOverview": "वार्षिक विहंगावलोकन"
+  },
+  "profile": {
+    "title": "प्रोफाइल",
+    "editProfile": "प्रोफाईल संपादित करा",
+    "name": "नाव",
+    "email": "ईमेल",
+    "phone": "फोन",
+    "monthlySalary": "मासिक वेतन",
+    "incomeType": "उत्पन्नाचा प्रकार",
+    "taxRegime": "कर व्यवस्था",
+    "currencyPreference": "चलन प्राधान्य",
+    "detailsSaved": "प्रोफाइल तपशील यशस्वीरित्या सेव्ह केले",
+    "updateSuccess": "प्रोफाइल प्रतिमा यशस्वीरित्या अद्यतनित केली"
+  },
+  "settings": {
+    "title": "सेटिंग्ज",
+    "general": "सामान्य",
+    "notifications": "अधिसूचना",
+    "security": "सुरक्षितता",
+    "privacy": "खाजगीयता",
+    "languagePreference": "भाषा प्राधान्य",
+    "themePreference": "सुत्रयोजना प्राधान्य",
+    "darkMode": "डार्क मोड",
+    "lightMode": "लाइट मोड",
+    "systemDefault": "सिस्टम डीफॉल्ट",
+    "enableNotifications": "सूचना कार्यान्वीत करा",
+    "disableNotifications": "सूचना अक्षम करा",
+    "changePassword": "गुप्तशब्द बदलवा",
+    "deleteAccount": "खाते हटवायचे?",
+    "exportData": "डेटा निर्यात करा",
+    "importData": "डेटा आयात करा",
+    "backupData": "बॅकअप डेटा",
+    "restoreData": "डेटा पुनर्संचयित करा",
+    "goToProfile": "प्रोफाइलवर जा",
+    "languageDescription": "अनुप्रयोगासाठी आपली पसंतीची भाषा निवडा"
+  },
+  "voice": {
+    "listening": "ऐकत आहे...",
+    "startListening": "व्हॉइस इनपुट सुरू करा",
+    "stopListening": "व्हॉइस इनपुट थांबवा",
+    "notSupported": "आपल्या ब्राउझरमध्ये व्हॉइस इनपुट समर्थित नाही",
+    "error": "व्हॉइस इनपुट त्रुटी"
+  },
+  "currency": {
+    "inr": "इन्डेक्सींग वगळले गेलेName",
+    "usd": "अमेरिकन डॉलर ($)",
+    "eur": "Name",
+    "gbp": "ब्रिटिश पाउंड (£)",
+    "jpy": "Name",
+    "cny": "Name",
+    "aud": "ऑस्ट्रेलियाName",
+    "cad": "Name"
+  },
+  "languages": {
+    "en": "इंग्लिश",
+    "hi": "हिंदी (Hindi)",
+    "kn": "मराठी (Marathi)",
+    "ta": "தமிழ் (तमिळ)",
+    "te": "मराठी (Marathi)",
+    "ml": "मराठी(Marathi)",
+    "mr": "मराठी (Marathi)",
+    "bn": "मराठी (Marathi)",
+    "gu": "मराठी(Marathi)"
+  },
+  "notifications": {
+    "budgetExceeded": "या महिन्याचा अर्थसंकल्प ओलांडला",
+    "goalAchieved": "अभिनंदन! ध्येय साध्य झाले",
+    "debtDueSoon": "कर्जाची परतफेड लवकरच",
+    "newExpenseAdded": "नवीन खर्च जोडला",
+    "profileUpdated": "प्रोफाइल प्रतिमा यशस्वीरित्या अद्यतनित केली"
+  },
+  "errors": {
+    "generic": "काहीतरी चूक झाली कृपया पुन्हा प्रयत्न करा.",
+    "networkError": "नेटवर्क त्रुटी ， कृपया आपले नेटवर्क कनेक्शन तपासा",
+    "invalidInput": "अवैध इनपुट. कृपया आपला डेटा तपासा.",
+    "unauthorized": "तुम्ही ही कृती करण्यासाठी अधिकृत नाही.",
+    "notFound": "अपेक्षित संसाधन सापडले नाही.",
+    "serverError": "सर्व्हर त्रुटी, कृपया नंतर पुन्हा प्रयत्न करा"
   }
 }
-

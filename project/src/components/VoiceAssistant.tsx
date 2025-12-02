@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Mic, MicOff, X, Check } from 'lucide-react';
-import { useVoiceInput } from '../hooks/useVoiceInput';
 import { useProfile } from '../hooks/useProfile';
 import { useCurrency } from '../hooks/useCurrency';
 import axios from 'axios';
@@ -11,7 +10,7 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 interface CommandConfirmation {
   command: string;
-  action: () => void;
+  action: () => void | Promise<void>;
   description: string;
 }
 
@@ -36,10 +35,11 @@ export function VoiceAssistant() {
   };
 
   const parseCommand = (text: string): CommandConfirmation | null => {
-    const lowerText = text.toLowerCase();
-    
+    const lowerText = text.toLowerCase().trim();
+    console.log('[VoiceAssistant] parseCommand input:', text);
+
     // Show insights
-    if (lowerText.includes('show insights') || lowerText.includes('display insights')) {
+    if (/\b(show|display|open|go to|take me to)\b.*\b(insight|insights)\b/.test(lowerText) || lowerText.includes('show insights')) {
       return {
         command: text,
         description: 'Navigate to insights panel',
@@ -47,11 +47,24 @@ export function VoiceAssistant() {
       };
     }
 
-    // Add expense
-    const expenseMatch = lowerText.match(/add expense (?:of )?(\d+(?:\.\d+)?)\s*(?:for|in|on)?\s*(\w+)/);
+    // Navigate to expenses (flexible)
+    if (/\b(go to|open|show|take me to|navigate to)\b.*\bexpenses?\b/.test(lowerText) ||
+      /\bexpenses?\b/.test(lowerText) && !/\b(add|create|new)\b/.test(lowerText) // avoid conflict with add expense
+    ) {
+      return {
+        command: text,
+        description: 'Navigate to expenses page',
+        action: () => navigate('/expenses'),
+      };
+    }
+
+    // Add expense — accepts multi-word categories like "grocery shopping"
+    // Examples matched: "add expense 200 for groceries", "add expense of 150 grocery shopping"
+    const expenseMatch = lowerText.match(/\badd\s+expense(?:\s+of)?\s+(\d+(?:\.\d+)?)(?:\s*(?:for|in|on)\s+([\w\s]+))?/);
     if (expenseMatch) {
       const amount = parseFloat(expenseMatch[1]);
-      const category = expenseMatch[2];
+      const rawCategory = expenseMatch[2] ? expenseMatch[2].trim() : 'uncategorized';
+      const category = rawCategory.replace(/\s+/g, ' ');
       return {
         command: text,
         description: `Add expense: ${amount} ${currency} for ${category}`,
@@ -59,10 +72,13 @@ export function VoiceAssistant() {
       };
     }
 
-    // Add debt
-    const debtMatch = lowerText.match(/add debt (?:called )?(\w+)\s*(\d+(?:\.\d+)?)\s*(?:monthly|per month)?\s*(\d+(?:\.\d+)?)/);
+    // Add debt: more robust parsing with optional words and multi-word names
+    // Examples:
+    // "add debt car loan 200000 5000"
+    // "add debt called car loan 200000 per month 5000"
+    const debtMatch = lowerText.match(/\badd\s+debt(?:\s+called)?\s+(?:['"])?([a-z\s-]+?)(?:['"])?\s+(\d+(?:\.\d+)?)(?:\s*(?:monthly|per month|\/month)?)?\s+(\d+(?:\.\d+)?)/);
     if (debtMatch) {
-      const name = debtMatch[1];
+      const name = debtMatch[1].trim();
       const principal = parseFloat(debtMatch[2]);
       const monthly = parseFloat(debtMatch[3]);
       return {
@@ -88,7 +104,7 @@ export function VoiceAssistant() {
     }
 
     // Show goals
-    if (lowerText.includes('show goals') || lowerText.includes('display goals')) {
+    if (/\b(show|display|open|go to|take me to)\b.*\bgoals?\b/.test(lowerText) || lowerText.includes('show goals')) {
       return {
         command: text,
         description: 'Navigate to goals page',
@@ -96,8 +112,8 @@ export function VoiceAssistant() {
       };
     }
 
-    // Set salary
-    const salaryMatch = lowerText.match(/set salary (?:to )?(\d+(?:,\d+)*(?:\.\d+)?)/);
+    // Set salary - allow commas and various phrasing
+    const salaryMatch = lowerText.match(/\bset\s+salary(?:\s+to)?\s+([\d,]+(?:\.\d+)?)/);
     if (salaryMatch) {
       const amount = parseFloat(salaryMatch[1].replace(/,/g, ''));
       return {
@@ -119,7 +135,7 @@ export function VoiceAssistant() {
     }
 
     // Change currency
-    const currencyMatch = lowerText.match(/change currency (?:to )?(\w+)/);
+    const currencyMatch = lowerText.match(/\bchange\s+currency(?:\s+to)?\s+([A-Za-z]{2,4})\b/);
     if (currencyMatch) {
       const newCurrency = currencyMatch[1].toUpperCase();
       const supported = ['INR', 'USD', 'EUR', 'GBP', 'AED'];
@@ -144,7 +160,7 @@ export function VoiceAssistant() {
     }
 
     // Change language
-    const langMatch = lowerText.match(/change language (?:to )?(\w+)/);
+    const langMatch = lowerText.match(/\bchange\s+language(?:\s+to)?\s+([a-z]{2})\b/);
     if (langMatch) {
       const langCode = langMatch[1].toLowerCase();
       const supported = ['en', 'hi', 'kn', 'ta', 'te', 'ml', 'mr', 'bn', 'gu'];
@@ -169,6 +185,14 @@ export function VoiceAssistant() {
       }
     }
 
+    // Generic "navigate to X" support for common pages
+    if (/\b(go to|open|show|take me to|navigate to)\b.*\b(debts?|goals?|expenses?|insights?|profile|settings?)\b/.test(lowerText)) {
+      if (/\bdebts?\b/.test(lowerText)) return { command: text, description: 'Navigate to debts', action: () => navigate('/debts') };
+      if (/\bgoals?\b/.test(lowerText)) return { command: text, description: 'Navigate to goals', action: () => navigate('/goals') };
+      if (/\bprofile\b/.test(lowerText)) return { command: text, description: 'Navigate to profile', action: () => navigate('/profile') };
+      if (/\bsettings?\b/.test(lowerText)) return { command: text, description: 'Navigate to settings', action: () => navigate('/settings') };
+    }
+
     return null;
   };
 
@@ -181,7 +205,7 @@ export function VoiceAssistant() {
     setIsListening(true);
     setTranscript('');
 
-    const SpeechRecognition = (window.SpeechRecognition || window.webkitSpeechRecognition) as any;
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       alert('Speech recognition not supported in this browser');
       setIsListening(false);
@@ -193,8 +217,22 @@ export function VoiceAssistant() {
     recognition.interimResults = false;
     recognition.lang = languageMap[profile.languagePreference] || 'en-US';
 
+    // Debug handlers so you can inspect lifecycle in console
+    recognition.onstart = () => {
+      console.log('[VoiceAssistant] recognition started');
+    };
+    recognition.onerror = (err: any) => {
+      console.error('[VoiceAssistant] recognition error', err);
+      setIsListening(false);
+    };
+    recognition.onend = () => {
+      console.log('[VoiceAssistant] recognition ended');
+      setIsListening(false);
+    };
+
     recognition.onresult = (event: any) => {
-      const text = event.results[0][0].transcript;
+      console.log('[VoiceAssistant] raw result event:', event.results);
+      const text = event.results?.[0]?.[0]?.transcript ?? '';
       setTranscript(text);
       setIsListening(false);
 
@@ -202,24 +240,30 @@ export function VoiceAssistant() {
       if (command) {
         setConfirmation(command);
       } else {
-        alert(`Command not recognized: "${text}". Try: "show insights", "set salary to 50000", "change currency to USD", etc.`);
+        alert(`Command not recognized: "${text}". Try: "show insights", "set salary to 50000", "change currency to USD", "go to expenses", "add expense 200 for groceries"`);
       }
     };
 
-    recognition.onerror = () => {
+    try {
+      recognition.start();
+    } catch (e) {
+      console.error('[VoiceAssistant] recognition.start() failed', e);
       setIsListening(false);
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-    };
-
-    recognition.start();
+    }
   };
 
   const handleConfirm = () => {
     if (confirmation) {
-      confirmation.action();
+      // run action (may be async)
+      try {
+        const result = confirmation.action();
+        // swallow promise rejections if any (we handle inside actions)
+        if (result && typeof (result as Promise<any>).then === 'function') {
+          (result as Promise<any>).catch(err => console.error('Action error:', err));
+        }
+      } catch (err) {
+        console.error('Error executing action:', err);
+      }
       setConfirmation(null);
       setTranscript('');
     }
@@ -241,7 +285,7 @@ export function VoiceAssistant() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         style={{
-          background: isListening 
+          background: isListening
             ? 'linear-gradient(135deg, #ef4444, #dc2626)'
             : 'linear-gradient(135deg, #06b6d4, #3b82f6, #8b5cf6)',
           boxShadow: isListening
@@ -263,7 +307,7 @@ export function VoiceAssistant() {
             <Mic className="h-6 w-6 text-white" />
           )}
         </AnimatePresence>
-        
+
         {/* Pulse Ring Animation */}
         {isListening && (
           <motion.div

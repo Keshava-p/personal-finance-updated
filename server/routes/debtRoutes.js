@@ -5,6 +5,8 @@ import {
   createDebt,
   updateDebt,
   deleteDebt,
+  recordPayment,
+  getPayoffStrategies,
 } from "../controllers/debtController.js";
 
 const router = express.Router();
@@ -15,5 +17,7 @@ router.get("/", getDebts);
 router.post("/", createDebt);
 router.put("/:id", updateDebt);
 router.delete("/:id", deleteDebt);
+router.post("/:id/payment", recordPayment);
+router.get("/strategies", getPayoffStrategies);
 
 export default router;

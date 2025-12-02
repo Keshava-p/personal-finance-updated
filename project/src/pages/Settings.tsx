@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { Download, Upload, FileText, FileSpreadsheet, Globe, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -15,6 +16,7 @@ import axios from 'axios';
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export function Settings() {
+  const { t } = useTranslation();
   const { notificationsEnabled, toggleNotifications } = useNotifications();
   const { expenses } = useExpenses();
   const { profile, updateProfile } = useProfile();
@@ -66,40 +68,40 @@ export function Settings() {
   return (
     <div className="space-y-6 pb-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold text-white">Settings</h2>
+        <h2 className="text-3xl font-bold text-white">{t('settings.title')}</h2>
         <span className="text-sm text-white/60">
-          Last updated {format(new Date(), 'MMM d, yyyy')}
+          {t('settings.lastUpdated')} {format(new Date(), 'MMM d, yyyy')}
         </span>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <GlassCard className="p-6 lg:col-span-2">
           <h3 className="text-sm font-semibold text-white/80 uppercase tracking-wide mb-4">
-            Profile Overview
+            {t('settings.profileOverview')}
           </h3>
           <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-white/70">
             <div>
-              <dt className="font-medium text-white mb-1">Name</dt>
+              <dt className="font-medium text-white mb-1">{t('profile.name')}</dt>
               <dd>{profile.name || '—'}</dd>
             </div>
             <div>
-              <dt className="font-medium text-white mb-1">Email</dt>
+              <dt className="font-medium text-white mb-1">{t('profile.email')}</dt>
               <dd>{profile.email || '—'}</dd>
             </div>
             <div>
-              <dt className="font-medium text-white mb-1">Preferred Currency</dt>
+              <dt className="font-medium text-white mb-1">{t('settings.preferredCurrency')}</dt>
               <dd>{currency}</dd>
             </div>
             <div>
-              <dt className="font-medium text-white mb-1">Language</dt>
+              <dt className="font-medium text-white mb-1">{t('settings.language')}</dt>
               <dd>{profile.languagePreference?.toUpperCase() || 'EN'}</dd>
             </div>
             <div>
-              <dt className="font-medium text-white mb-1">Monthly Salary</dt>
+              <dt className="font-medium text-white mb-1">{t('settings.monthlySalary')}</dt>
               <dd>{formatMoney(profile.monthlySalary)}</dd>
             </div>
             <div>
-              <dt className="font-medium text-white mb-1">Emergency Fund Target</dt>
+              <dt className="font-medium text-white mb-1">{t('settings.emergencyFundTarget')}</dt>
               <dd>{formatMoney(profile.emergencyFundTarget || 0)}</dd>
             </div>
           </dl>
@@ -107,10 +109,10 @@ export function Settings() {
         <GlassCard className="p-6 space-y-4">
           <div>
             <h3 className="text-sm font-semibold text-white/80 uppercase tracking-wide mb-3">
-              Quick Stats
+              {t('settings.quickStats')}
             </h3>
             <p className="text-3xl font-bold text-white">{formatMoney(estimatedSavings)}</p>
-            <p className="text-xs text-white/60">Estimated savings this month</p>
+            <p className="text-xs text-white/60">{t('settings.estimatedSavings')}</p>
           </div>
         </GlassCard>
       </div>
@@ -118,16 +120,16 @@ export function Settings() {
       <GlassCard className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold text-white">Manage Profile</h3>
+            <h3 className="text-xl font-bold text-white">{t('settings.manageProfile')}</h3>
             <p className="text-sm text-white/70">
-              Update your personal information, language preference, and financial defaults.
+              {t('profile.updatePersonalInfo')}
             </p>
           </div>
           <Link
             to="/profile"
             className="inline-flex items-center px-4 py-2 rounded-xl border border-cyan-400/30 text-cyan-400 hover:bg-cyan-400/10 transition"
           >
-            Go to Profile
+            {t('settings.goToProfile')}
           </Link>
         </div>
       </GlassCard>
@@ -138,13 +140,13 @@ export function Settings() {
           <div>
             <div className="flex items-center gap-3 mb-3">
               <Globe className="h-5 w-5 text-cyan-400" />
-              <h3 className="text-lg font-bold text-white">Language Preference</h3>
+              <h3 className="text-lg font-bold text-white">{t('settings.languagePreference')}</h3>
             </div>
             <p className="text-sm text-white/70 mb-3">
-              Select your preferred language for the application interface.
+              {t('settings.selectLanguage')}
             </p>
             <div className="max-w-xs">
-              <LanguageSelector 
+              <LanguageSelector
                 value={profile.languagePreference || 'en'}
                 onChange={handleLanguageChange}
               />
@@ -155,14 +157,14 @@ export function Settings() {
           <div className="border-t border-white/20 pt-6">
             <div className="flex items-center gap-3 mb-3">
               <DollarSign className="h-5 w-5 text-cyan-400" />
-              <h3 className="text-lg font-bold text-white">Currency Preference</h3>
+              <h3 className="text-lg font-bold text-white">{t('settings.currencyPreference')}</h3>
             </div>
             <p className="text-sm text-white/70 mb-3">
-              Choose your preferred currency for displaying amounts throughout the application.
+              {t('settings.chooseCurrency')}
             </p>
             <div className="max-w-xs">
-              <CurrencySelector 
-                value={currency} 
+              <CurrencySelector
+                value={currency}
                 onChange={handleCurrencyChange}
               />
             </div>
@@ -172,21 +174,19 @@ export function Settings() {
           <div className="border-t border-white/20 pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-bold text-white">Notifications</h3>
+                <h3 className="text-lg font-bold text-white">{t('settings.notifications')}</h3>
                 <p className="text-sm text-white/70">
-                  Manage your notification preferences
+                  {t('settings.notificationSettings')}
                 </p>
               </div>
               <button
                 onClick={toggleNotifications}
-                className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 ${
-                  notificationsEnabled ? 'bg-cyan-500' : 'bg-white/20'
-                }`}
+                className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 ${notificationsEnabled ? 'bg-cyan-500' : 'bg-white/20'
+                  }`}
               >
                 <span
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                    notificationsEnabled ? 'translate-x-5' : 'translate-x-0'
-                  }`}
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${notificationsEnabled ? 'translate-x-5' : 'translate-x-0'
+                    }`}
                 />
               </button>
             </div>
@@ -195,7 +195,7 @@ export function Settings() {
           {/* Export & Backup */}
           <div className="border-t border-white/20 pt-6">
             <h3 className="text-lg font-bold text-white mb-4">
-              Export & Backup
+              {t('settings.exportBackup')}
             </h3>
             <div className="space-y-3">
               <button
@@ -203,28 +203,28 @@ export function Settings() {
                 className="w-full inline-flex items-center justify-center px-4 py-2 border border-white/20 rounded-xl text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition"
               >
                 <FileText className="h-5 w-5 mr-2" />
-                Export as PDF
+                {t('settings.exportPDF')}
               </button>
               <button
                 onClick={() => exportToCSV(expenses)}
                 className="w-full inline-flex items-center justify-center px-4 py-2 border border-white/20 rounded-xl text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition"
               >
                 <FileSpreadsheet className="h-5 w-5 mr-2" />
-                Export as CSV
+                {t('settings.exportCSV')}
               </button>
               <button
                 onClick={backupData}
                 className="w-full inline-flex items-center justify-center px-4 py-2 border border-white/20 rounded-xl text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition"
               >
                 <Download className="h-5 w-5 mr-2" />
-                Backup Data
+                {t('settings.backupData')}
               </button>
               <button
                 onClick={() => fileInputRef.current?.click()}
                 className="w-full inline-flex items-center justify-center px-4 py-2 border border-white/20 rounded-xl text-sm font-medium text-white bg-white/10 hover:bg-white/20 transition"
               >
                 <Upload className="h-5 w-5 mr-2" />
-                Restore Data
+                {t('settings.restoreData')}
               </button>
               <input
                 type="file"

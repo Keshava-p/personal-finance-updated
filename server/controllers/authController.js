@@ -33,7 +33,7 @@ export const register = async (req, res) => {
       email,
       password,
       monthlySalary: monthlySalary || 0,
-      currencyPreference: currencyPreference || "USD",
+      currencyPreference: currencyPreference || "INR",
       languagePreference: languagePreference || "en",
     });
 
@@ -84,6 +84,15 @@ export const login = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: "Invalid email or password",
+      });
+    }
+
+    // Check if password exists (it should be selected by +password)
+    if (!user.password) {
+      console.error(`Login error: User ${email} found but has no password hash.`);
+      return res.status(500).json({
+        success: false,
+        message: "Account data error. Please contact support.",
       });
     }
 
@@ -247,7 +256,7 @@ export const resetPassword = async (req, res) => {
       .digest('hex');
 
     console.log('Looking for user with token:', hashedToken);
-    
+
     // Find user with token and valid expiry
     const user = await User.findOne({
       resetPasswordToken: hashedToken,
@@ -263,11 +272,11 @@ export const resetPassword = async (req, res) => {
     }
 
     console.log('User found, updating password for:', user.email);
-    
+
     // Update password with hashing
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
-    
+
     // Clear reset token fields
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
@@ -279,7 +288,7 @@ export const resetPassword = async (req, res) => {
     try {
       const message = `Your password has been successfully reset.\n\n` +
         `If you did not make this change, please contact support immediately.`;
-      
+
       await sendEmail(user.email, 'Password Reset Confirmation', message);
       console.log('Password reset confirmation email sent to:', user.email);
     } catch (emailError) {

@@ -1,16 +1,206 @@
 {
-  "profile": {
-    "completeProfile": "अपनी प्रोफ़ाइल पूरा करें ताकि आपका फ़ाइनेंस डैशबोर्ड व्यक्तिगत हो सके। आपकी सैलरी, पसंदीदा मुद्रा और भाषा सटीक जानकारी में मदद करेंगे।",
-    "enterSalary": "वैयक्तिक वित्त के सुझावों के लिए अपनी मासिक सैलरी दर्ज करें।",
-    "salaryUpdated": "सैलरी सफलतापूर्वक अपडेट हो गई! आपका डैशबोर्ड नए राशि के अनुसार पुनर्गणना किया गया है।",
-    "chooseCurrency": "अपनी पसंदीदा मुद्रा चुनें। आपकी सभी रिपोर्ट इसी मुद्रा में दिखाई देंगी।",
-    "selectLanguage": "अपनी पसंदीदा भाषा चुनें। पूरा ऐप उसी भाषा में चलेगा।",
-    "detailsSaved": "प्रोफ़ाइल विवरण सफलतापूर्वक सहेजे गए!",
-    "salaryOnboardingHelper": "अपने मुख्य विवरण पूरा करें ताकि हम आपके लक्ष्य के अनुरूप बजट, रिपोर्ट और इनसाइट्स तैयार कर सकें।"
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "expenses": "खर्चे",
+    "goals": "लक्ष्य",
+    "debts": "ऋण",
+    "reports": "रिपोर्ट",
+    "budget": "बजट",
+    "profile": "प्रोफ़ाइल",
+    "settings": "सेटिंग्स"
+  },
+  "common": {
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "add": "जोड़ें",
+    "update": "अपडेट करें",
+    "submit": "सबमिट करें",
+    "close": "बंद करें",
+    "confirm": "पक्का करें",
+    "back": "वापस जाएँ",
+    "next": "अगला",
+    "loading": "लोड कर रहा है...",
+    "error": "इस वीडियो को कैसे बनाया जाए?",
+    "success": "सफल"
+  },
+  "auth": {
+    "login": "लॉगिन करें",
+    "logout": "लॉग आउट करें",
+    "register": "रजिस्टर करें",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "resetPassword": "पासवर्ड रीसेट करें",
+    "signIn": "साइन इन करें",
+    "signUp": "साइन अप करें",
+    "alreadyHaveAccount": "पहले से ही अकाउंट है?",
+    "dontHaveAccount": "क्या आपका कोई अकाउंट नहीं है?"
+  },
+  "dashboard": {
+    "title": "डैशबोर्ड",
+    "welcome": "फिर से स्वागत है।",
+    "totalExpenses": "कुल खर्च",
+    "monthlyExpenses": "मासिक व्यय",
+    "netSavings": "शुद्ध बचत",
+    "recentTransactions": "हाल के 10 लेन - देन",
+    "insights": "अंतर्दृष्टि",
+    "noData": "कोई डेटा उपलब्ध नहीं"
+  },
+  "expenses": {
+    "title": "खर्चे",
+    "addExpense": "व्यय शामिल करें",
+    "editExpense": "व्यय संपादित करें",
+    "deleteExpense": "व्यय हटाएं",
+    "amount": "राशि/देयराशी",
+    "category": "स्कूल में पढ़ने वाले भाई/बहन",
+    "description": "विवरण",
+    "date": "दिनांक",
+    "currency": "करेंसी",
+    "noExpenses": "अभी तक कोई खर्च रिकॉर्ड नहीं किया गया है",
+    "totalSpent": "कुल खर्चा",
+    "thisMonth": "इस महीने",
+    "categories": {
+      "food": "खाना",
+      "transport": "परिवहन",
+      "entertainment": "मनोरंजन",
+      "utilities": "यूटिलिटीज़Name",
+      "healthcare": "स्वास्थ्य सेवा (हेल्थकेयर)",
+      "shopping": "खरीदारी",
+      "education": "शिक्षा",
+      "other": "अन्य"
+    }
+  },
+  "goals": {
+    "title": "लक्ष्य",
+    "addGoal": "लक्ष्य जोड़ें",
+    "editGoal": "लक्ष्य में बदलाव करें",
+    "deleteGoal": "लक्ष्य डिलीट करें",
+    "goalName": "लक्ष्य का नाम",
+    "targetAmount": "टारगेट की राशि",
+    "currentSaved": "वर्तमान सहेजा गया",
+    "deadline": "समय सीमा",
+    "progress": "प्रगति",
+    "noGoals": "अभी तक कोई लक्ष्य नहीं है",
+    "completed": "समाप्त/पूरा हुआ",
+    "inProgress": "प्रगति पर"
   },
   "goal": {
-    "updateGoal": "किसी भी समय अपने लक्ष्य राशि को अपडेट या समायोजित करें।",
-    "progressText": "आपने अपने लक्ष्य का {{percent}}% पूरा कर लिया है!",
-    "goalUpdated": "लक्ष्य सफलतापूर्वक अपडेट किया गया।"
+    "goalUpdated": "सफलतापूर्वक अपडेट किया गया।"
+  },
+  "debts": {
+    "title": "ऋण",
+    "addDebt": "कर्ज़ जोड़ें",
+    "editDebt": "ऋण में बदलाव करें",
+    "deleteDebt": "ऋण डिलीट करें",
+    "debtName": "कर्ज़ का नाम",
+    "totalAmount": "कुल रकम",
+    "remainingAmount": "बाकी राशि",
+    "interestRate": "ब्याज दर",
+    "dueDate": "देय तारीख",
+    "noDebts": "कोई ऋण दर्ज नहीं किया गया",
+    "paidOff": "बधाई हो आपके प्रयासों का भुगतान किया है",
+    "active": "ऐक्टिव"
+  },
+  "budget": {
+    "title": "बजट",
+    "setBudget": "बजट सेट करें",
+    "editBudget": "बजट में बदलाव करें",
+    "monthlyBudget": "महीने का बजट",
+    "spent": "खर्च की गई राशि",
+    "remaining": "बचा",
+    "exceeded": "पार हो गया",
+    "onTrack": "सही रास्ते पर हैं ",
+    "noBudget": "कोई बजट सेट नहीं है"
+  },
+  "reports": {
+    "title": "रिपोर्ट",
+    "generateReport": "रिपोर्ट जनरेट करें",
+    "expenseReport": "खर्च रपट Name",
+    "incomeReport": "आय रिपोर्ट",
+    "savingsReport": "बचत रिपोर्ट",
+    "categoryBreakdown": "वर्ग ब्रेकडाउन",
+    "monthlyTrend": "Monthly Trend",
+    "yearlyOverview": "Yearly Overview"
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "monthlySalary": "Monthly Salary",
+    "incomeType": "Income Type",
+    "taxRegime": "Tax Regime",
+    "currencyPreference": "Currency Preference",
+    "detailsSaved": "Profile details saved successfully",
+    "updateSuccess": "Profile updated successfully"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "notifications": "Notifications",
+    "security": "Security",
+    "privacy": "Privacy",
+    "languagePreference": "Language Preference",
+    "themePreference": "Theme Preference",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "systemDefault": "System Default",
+    "enableNotifications": "Enable Notifications",
+    "disableNotifications": "Disable Notifications",
+    "changePassword": "Change Password",
+    "deleteAccount": "Delete Account",
+    "exportData": "Export Data",
+    "importData": "Import Data",
+    "backupData": "Backup Data",
+    "restoreData": "Restore Data",
+    "goToProfile": "Go to Profile",
+    "languageDescription": "Select your preferred language for the application"
+  },
+  "voice": {
+    "listening": "Listening...",
+    "startListening": "Start Voice Input",
+    "stopListening": "Stop Voice Input",
+    "notSupported": "Voice input is not supported in your browser",
+    "error": "वॉइस इनपुट में गड़बड़ी"
+  },
+  "currency": {
+    "inr": "भारतीय रुपया",
+    "usd": "यूएस डॉलर",
+    "eur": "यूरो",
+    "gbp": "ब्रिटिश पाउंड",
+    "jpy": "जापानी येनName",
+    "cny": "चीनी युआनName",
+    "aud": "ऑस्ट्रलियन डॉलर",
+    "cad": "कनाडाई डॉलर"
+  },
+  "languages": {
+    "en": "अंग्रेज़ी",
+    "hi": "हिन्दी (हिन्दी)",
+    "kn": "(कन्नड़)",
+    "ta": "தமிழ் (तमिल)",
+    "te": "हिन्दी(तेलुगु)",
+    "ml": "हिन्दी (मलयालम)",
+    "mr": "मराठी (मराठी)",
+    "bn": "भोजपुरी (बंगाली)",
+    "gu": "गुजराती (गुजराती)"
+  },
+  "notifications": {
+    "budgetExceeded": "इस महीने का बजट पार हो गया है",
+    "goalAchieved": "बधाई हो! लक्ष्य हासिल किया गया",
+    "debtDueSoon": "कर्ज़ का भुगतान जल्द ही बकाया होगा",
+    "newExpenseAdded": "नया खर्च जोड़ा गया",
+    "profileUpdated": "प्रोफाइल को सफलतापूर्वक अपडेट किया गया।"
+  },
+  "errors": {
+    "generic": "कोई गड़बड़ हो गई, कृपया दोबारा कोशिश करें।",
+    "networkError": "नेटवर्क में गड़बड़ी। कृपया अपना कनेक्शन जाँचें।",
+    "invalidInput": "अमान्य इनपुट। कृपया अपना डेटा जाँचें।",
+    "unauthorized": "आप इस एक्शन को करने के लिए अधिकृत नहीं हैं",
+    "notFound": "अनुरोधित संसाधन नहीं मिला।",
+    "serverError": "सर्वर में गड़बड़ी हुई। कृपया बाद में फिर से कोशिश करें।"
   }
 }

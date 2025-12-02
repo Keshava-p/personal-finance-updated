@@ -28,7 +28,7 @@ export function ExpenseForm({ onSubmit }: ExpenseFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     let finalAmount = parseFloat(amount);
 
     if (currency !== profile.currencyPreference) {
@@ -62,31 +62,32 @@ export function ExpenseForm({ onSubmit }: ExpenseFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="space-y-4 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Add Expense</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">Add Expense</h2>
         <VoiceInput onVoiceInput={handleVoiceInput} />
       </div>
 
       <div>
-        <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="amount" className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
           Amount
         </label>
-        <div className="mt-1 relative rounded-md shadow-sm">
+        <div className="relative rounded-lg">
           <input
             type="number"
             id="amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="block w-full h-11 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white pl-4 pr-24 focus:border-cyan-500 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
             placeholder="0.00"
+            step="0.01"
             required
           />
           <div className="absolute inset-y-0 right-0 flex items-center">
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="h-full rounded-r-lg border-transparent bg-gray-100 dark:bg-gray-600 text-gray-900 dark:text-white py-0 pl-3 pr-8 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 text-sm font-medium"
             >
               <option value="INR">INR</option>
               <option value="USD">USD</option>
@@ -103,27 +104,30 @@ export function ExpenseForm({ onSubmit }: ExpenseFormProps) {
       </div>
 
       <div>
-        <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="category" className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
           Category
         </label>
         <select
           id="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          className="block w-full h-11 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-4 focus:border-cyan-500 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all"
           required
         >
           <option value="">Select a category</option>
-          <option value="food">Food</option>
-          <option value="transport">Transport</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="utilities">Utilities</option>
-          <option value="shopping">Shopping</option>
+          <option value="food">🍔 Food</option>
+          <option value="transport">🚗 Transport</option>
+          <option value="entertainment">🎬 Entertainment</option>
+          <option value="utilities">💡 Utilities</option>
+          <option value="shopping">🛍️ Shopping</option>
+          <option value="healthcare">🏥 Healthcare</option>
+          <option value="education">📚 Education</option>
+          <option value="other">📦 Other</option>
         </select>
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="description" className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
           Description
         </label>
         <input
@@ -131,7 +135,8 @@ export function ExpenseForm({ onSubmit }: ExpenseFormProps) {
           id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="block w-full h-11 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-4 focus:border-cyan-500 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
+          placeholder="What did you spend on?"
           required
         />
       </div>
@@ -139,9 +144,9 @@ export function ExpenseForm({ onSubmit }: ExpenseFormProps) {
       <button
         type="submit"
         disabled={isConverting}
-        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+        className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
       >
-        <PlusCircle className="mr-2 h-4 w-4" />
+        <PlusCircle className="mr-2 h-5 w-5" />
         {isConverting ? 'Converting Currency...' : 'Add Expense'}
       </button>
     </form>

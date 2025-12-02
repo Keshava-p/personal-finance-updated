@@ -13,10 +13,14 @@ interface Debt {
   _id: string;
   name: string;
   principal: number;
+  currentBalance?: number;
   monthlyPayment: number;
   apr: number;
   startDate: string;
   currency: string;
+  status?: 'active' | 'paid_off' | 'defaulted';
+  debtType?: string;
+  creditor?: string;
   notes?: string;
   projection?: {
     monthsToPayoff: number;
@@ -135,7 +139,7 @@ export function DebtManager() {
     }
 
     try {
-      await api.put(`/debts/${id}/pay`, { amountPaid: Number(amount) });
+      await api.post(`/debts/${id}/payment`, { amount: Number(amount) });
       fetchDebts();
     } catch (error) {
       console.error('Error adding payment:', error);
@@ -147,7 +151,17 @@ export function DebtManager() {
   const markAsPaid = async (id: string) => {
     if (!confirm('Mark this debt as fully paid?')) return;
     try {
-      await api.put(`/debts/${id}/paid`);
+      const debt = debts.find(d => d._id === id);
+      if (!debt) return;
+
+      // Record final payment to zero out the balance
+      const remainingBalance = debt.currentBalance || debt.principal;
+      await api.post(`/debts/${id}/payment`, {
+        amount: remainingBalance,
+        notes: 'Final payment - marked as paid off'
+      });
+
+      alert('✅ Debt marked as paid off!');
       fetchDebts();
     } catch (error) {
       console.error('Error marking as paid:', error);
@@ -241,7 +255,7 @@ export function DebtManager() {
               <X className="h-5 w-5" />
             </button>
           </div>
-          
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -249,7 +263,7 @@ export function DebtManager() {
                 <input
                   type="text"
                   value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   required
                 />
@@ -259,7 +273,7 @@ export function DebtManager() {
                 <input
                   type="number"
                   value={formData.principal}
-                  onChange={(e) => setFormData({...formData, principal: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, principal: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   min="0"
                   step="0.01"
@@ -271,7 +285,7 @@ export function DebtManager() {
                 <input
                   type="number"
                   value={formData.monthlyPayment}
-                  onChange={(e) => setFormData({...formData, monthlyPayment: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, monthlyPayment: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   min="0"
                   step="0.01"
@@ -283,7 +297,7 @@ export function DebtManager() {
                 <input
                   type="number"
                   value={formData.apr}
-                  onChange={(e) => setFormData({...formData, apr: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, apr: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   min="0"
                   max="100"
@@ -296,7 +310,7 @@ export function DebtManager() {
               <label className="block text-sm font-medium text-white/80 mb-1">Notes (Optional)</label>
               <textarea
                 value={formData.notes}
-                onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 rows={3}
               />
@@ -331,9 +345,22 @@ export function DebtManager() {
 
               {/* Header */}
               <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-2">{debt.name}</h3>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-2xl font-bold text-white">{debt.name}</h3>
+                    {debt.status === 'paid_off' && (
+                      <span className="px-3 py-1 bg-green-500/20 text-green-400 border border-green-400/40 rounded-full text-xs font-semibold">
+                        ✓ PAID OFF
+                      </span>
+                    )}
+                    {debt.status === 'active' && (
+                      <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 border border-cyan-400/40 rounded-full text-xs font-semibold">
+                        ACTIVE
+                      </span>
+                    )}
+                  </div>
                   <p className="text-sm text-white/60">Started: {format(new Date(debt.startDate), 'MMM d, yyyy')}</p>
+                  {debt.creditor && <p className="text-sm text-white/60">Creditor: {debt.creditor}</p>}
                 </div>
 
                 <div className="flex gap-2">
@@ -347,10 +374,21 @@ export function DebtManager() {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
                 <div>
-                  <p className="text-sm text-white/60 mb-1">Principal</p>
+                  <p className="text-sm text-white/60 mb-1">Original Amount</p>
                   <p className="text-xl font-bold text-white">{formatMoney(debt.principal)}</p>
+                </div>
+                <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-3 rounded-lg border border-cyan-400/20">
+                  <p className="text-sm text-cyan-400 mb-1 font-semibold">Current Balance</p>
+                  <p className="text-xl font-bold text-white">
+                    {formatMoney(debt.currentBalance ?? debt.principal)}
+                  </p>
+                  {debt.currentBalance !== undefined && debt.currentBalance < debt.principal && (
+                    <p className="text-xs text-green-400 mt-1">
+                      -{formatMoney(debt.principal - debt.currentBalance)} paid
+                    </p>
+                  )}
                 </div>
                 <div>
                   <p className="text-sm text-white/60 mb-1">Monthly Payment</p>
@@ -404,29 +442,31 @@ export function DebtManager() {
                 </div>
               )}
 
-              {/* 🚀 ACTION BUTTONS (FINAL ADDED BLOCK) */}
+              {/* 🚀 ACTION BUTTONS */}
               <div className="mt-6 flex gap-3">
+                {debt.status !== 'paid_off' && (
+                  <>
+                    <button
+                      onClick={() => addPayment(debt._id)}
+                      className="px-4 py-2 bg-cyan-600/30 text-cyan-300 border border-cyan-400/40 rounded-lg hover:bg-cyan-600/50 transition-all font-medium"
+                    >
+                      💰 Add Payment
+                    </button>
 
-                <button
-                  onClick={() => addPayment(debt._id)}
-                  className="px-4 py-2 bg-cyan-600/30 text-cyan-300 border border-cyan-400/40 rounded-lg hover:bg-cyan-600/50 transition-all"
-                >
-                  Add Payment
-                </button>
+                    <button
+                      onClick={() => markAsPaid(debt._id)}
+                      className="px-4 py-2 bg-green-600/30 text-green-300 border border-green-400/40 rounded-lg hover:bg-green-600/50 transition-all font-medium"
+                    >
+                      ✓ Mark as Paid
+                    </button>
+                  </>
+                )}
 
-                <button
-                  onClick={() => markAsPaid(debt._id)}
-                  className="px-4 py-2 bg-green-600/30 text-green-300 border border-green-400/40 rounded-lg hover:bg-green-600/50 transition-all"
-                >
-                  Mark as Paid
-                </button>
-
-                <button
-                  onClick={() => handleDelete(debt._id)}
-                  className="px-4 py-2 bg-red-600/30 text-red-300 border border-red-400/40 rounded-lg hover:bg-red-600/50 transition-all"
-                >
-                  Delete Debt
-                </button>
+                {debt.status === 'paid_off' && (
+                  <div className="px-4 py-2 bg-green-500/20 text-green-400 border border-green-400/40 rounded-lg font-medium">
+                    🎉 This debt has been paid off!
+                  </div>
+                )}
               </div>
 
             </GlassCard>

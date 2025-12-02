@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+tensorflow
+joblib
+numpy
+pandas
+yfinance
+textblob
+feedparser
+scikit-learn
+holidays
+requests

@@ -10,7 +10,21 @@ interface VoiceInputProps {
 
 export function VoiceInput({ onVoiceInput }: VoiceInputProps) {
   const { profile } = useProfile();
-  const recognitionLanguage = profile.languagePreference === 'hi' ? 'hi-IN' : 'en-US';
+
+  // Comprehensive language mapping for speech recognition
+  const languageMap: Record<string, string> = {
+    en: 'en-US',
+    hi: 'hi-IN',
+    kn: 'kn-IN',
+    ta: 'ta-IN',
+    te: 'te-IN',
+    ml: 'ml-IN',
+    mr: 'mr-IN',
+    bn: 'bn-IN',
+    gu: 'gu-IN',
+  };
+
+  const recognitionLanguage = languageMap[profile.languagePreference] || 'en-US';
   const { isListening, startListening } = useVoiceInput({
     onParsed: onVoiceInput,
     language: recognitionLanguage,

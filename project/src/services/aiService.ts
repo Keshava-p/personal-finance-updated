@@ -37,19 +37,8 @@ export async function generateExpenseInsights(
   currency = "INR"
 ): Promise<ExpenseInsight[]> {
   try {
-    const apiKey = localStorage.getItem(AI_KEY_STORAGE);
-
-    if (!apiKey) {
-      return [
-        {
-          id: crypto.randomUUID(),
-          type: "warning",
-          message:
-            "AI insights are disabled. Add your Gemini API key in Settings → AI Services.",
-          priority: 2,
-        },
-      ];
-    }
+    // Use hardcoded API key (fallback to localStorage if available)
+    const apiKey = localStorage.getItem(AI_KEY_STORAGE) || "AIzaSyC5V9YKja7yXjX1nqmzotyXRKQIOb5n1L0";
 
     const genAI = new GoogleGenerativeAI(apiKey);
 
@@ -80,7 +69,7 @@ export async function generateExpenseInsights(
       month: format(new Date(), "MMMM yyyy"),
     };
 
-  const prompt = `
+    const prompt = `
 You are an advanced AI financial advisor with expertise in 
 personal finance, behavioral psychology, and habit analytics.
 
@@ -107,8 +96,8 @@ Monthly Total (${summary.month}): ${formatCurrency(summary.monthlyTotal, currenc
 
 Categories:
 ${summary.categories
-  .map(([cat, amount]) => `${cat}: ${formatCurrency(amount, currency)}`)
-  .join("\n")}
+        .map(([cat, amount]) => `${cat}: ${formatCurrency(amount, currency)}`)
+        .join("\n")}
 
 ----------------------------------------
 GENERATE INSIGHTS BASED ON THESE CONCEPTS:

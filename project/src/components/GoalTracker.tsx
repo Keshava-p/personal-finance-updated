@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Goal } from '../types/expense';
-import { Target, Trash2, Edit2, Check, X } from 'lucide-react';
+import { Target, Trash2, Edit2, Check, X, Plus } from 'lucide-react';
 import { useProfile } from '../hooks/useProfile';
 import { useCurrency } from '../hooks/useCurrency';
 
@@ -43,71 +43,117 @@ export function GoalTracker({ goals, onAddGoal, onDeleteGoal, onUpdateProgress }
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Savings Goals</h2>
+    <div className="bg-white dark:bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Savings Goals</h2>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-100 hover:bg-indigo-200"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-all shadow-md"
         >
-          <Target className="h-4 w-4 mr-1" />
+          <Plus className="h-4 w-4 mr-2" />
           Add Goal
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="mb-6 space-y-4">
-          <input
-            type="text"
-            placeholder="Goal Name"
-            value={newGoal.name}
-            onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-          <input
-            type="number"
-            placeholder="Target Amount"
-            value={newGoal.targetAmount}
-            onChange={(e) => setNewGoal({ ...newGoal, targetAmount: Number(e.target.value) })}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-          <input
-            type="number"
-            placeholder="Current Amount / Progress"
-            value={newGoal.currentAmount}
-            onChange={(e) => setNewGoal({ ...newGoal, currentAmount: Number(e.target.value) })}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            min="0"
-          />
-          <input
-            type="date"
-            value={newGoal.deadline}
-            onChange={(e) => setNewGoal({ ...newGoal, deadline: e.target.value })}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-          <button
-            type="submit"
-            className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-          >
-            Save Goal
-          </button>
+        <form onSubmit={handleSubmit} className="mb-6 space-y-4 p-4 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600">
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+              Goal Name
+            </label>
+            <input
+              type="text"
+              placeholder="e.g., Emergency Fund, Vacation, New Car"
+              value={newGoal.name}
+              onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
+              className="block w-full h-11 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-4 focus:border-cyan-500 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+              Target Amount
+            </label>
+            <input
+              type="number"
+              placeholder="0.00"
+              value={newGoal.targetAmount || ''}
+              onChange={(e) => setNewGoal({ ...newGoal, targetAmount: Number(e.target.value) })}
+              className="block w-full h-11 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-4 focus:border-cyan-500 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              step="0.01"
+              min="0"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+              Current Amount / Progress
+            </label>
+            <input
+              type="number"
+              placeholder="0.00"
+              value={newGoal.currentAmount || ''}
+              onChange={(e) => setNewGoal({ ...newGoal, currentAmount: Number(e.target.value) })}
+              className="block w-full h-11 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-4 focus:border-cyan-500 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              step="0.01"
+              min="0"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+              Target Deadline
+            </label>
+            <input
+              type="date"
+              value={newGoal.deadline}
+              onChange={(e) => setNewGoal({ ...newGoal, deadline: e.target.value })}
+              className="block w-full h-11 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-4 focus:border-cyan-500 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all"
+              required
+            />
+          </div>
+
+          <div className="flex gap-3 pt-2">
+            <button
+              type="submit"
+              className="flex-1 inline-flex justify-center items-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-all shadow-md"
+            >
+              <Check className="h-4 w-4 mr-2" />
+              Save Goal
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowForm(false)}
+              className="px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       )}
 
-      <div className="space-y-4">
-        {goals.map((goal) => {
-          return <GoalCardItem 
-            key={goal.id} 
-            goal={goal} 
-            onDeleteGoal={onDeleteGoal}
-            onUpdateProgress={onUpdateProgress}
-            formatMoney={formatMoney}
-          />;
-        })}
-      </div>
+      {goals.length === 0 ? (
+        <div className="text-center py-12">
+          <Target className="h-16 w-16 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+          <p className="text-gray-500 dark:text-gray-400 text-lg">
+            No savings goals yet. Create your first goal to start tracking your progress!
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {goals.map((goal) => {
+            return <GoalCardItem
+              key={goal.id}
+              goal={goal}
+              onDeleteGoal={onDeleteGoal}
+              onUpdateProgress={onUpdateProgress}
+              formatMoney={formatMoney}
+            />;
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -128,6 +174,7 @@ function GoalCardItem({ goal, onDeleteGoal, onUpdateProgress, formatMoney }: Goa
   }, [goal.currentAmount]);
 
   const progressPercent = goal.targetAmount > 0 ? (goal.currentAmount / goal.targetAmount) * 100 : 0;
+  const isCompleted = progressPercent >= 100;
 
   const handleSaveProgress = () => {
     if (onUpdateProgress && currentAmount >= 0) {
@@ -141,35 +188,45 @@ function GoalCardItem({ goal, onDeleteGoal, onUpdateProgress, formatMoney }: Goa
     setEditingProgress(false);
   };
 
+  const handleDelete = () => {
+    if (window.confirm(`Are you sure you want to delete "${goal.name}"?`)) {
+      onDeleteGoal?.(goal.id);
+    }
+  };
+
   return (
-    <div className="border rounded-lg p-4 dark:border-gray-700">
-      <div className="flex justify-between items-center mb-2">
-        <h3 className="font-medium text-gray-900 dark:text-white">{goal.name}</h3>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500 dark:text-gray-400">
-            Due {new Date(goal.deadline).toLocaleDateString()}
+    <div className="border-2 border-gray-200 dark:border-gray-700 rounded-lg p-5 bg-white dark:bg-gray-800/30 hover:shadow-lg transition-all">
+      <div className="flex justify-between items-start mb-3">
+        <div className="flex-1">
+          <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-1">{goal.name}</h3>
+          <span className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
+            <Target className="h-3.5 w-3.5" />
+            Due {new Date(goal.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
           </span>
-          {onDeleteGoal && (
-            <button
-              onClick={() => {
-                if (window.confirm(`Are you sure you want to delete "${goal.name}"?`)) {
-                  onDeleteGoal(goal.id);
-                }
-              }}
-              className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1 rounded transition-colors"
-              title="Delete goal"
-            >
-              <Trash2 className="h-4 w-4" />
-            </button>
-          )}
         </div>
+        {onDeleteGoal && (
+          <button
+            onClick={handleDelete}
+            className="inline-flex items-center px-3 py-1.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 rounded-lg transition-colors font-medium text-sm"
+            title="Delete goal"
+          >
+            <Trash2 className="h-4 w-4 mr-1" />
+            Delete
+          </button>
+        )}
       </div>
-      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-3">
+
+      {/* Progress Bar */}
+      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-3 overflow-hidden">
         <div
-          className="bg-indigo-600 h-2.5 rounded-full"
+          className={`h-3 rounded-full transition-all duration-500 ${isCompleted
+              ? 'bg-gradient-to-r from-green-500 to-emerald-500'
+              : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+            }`}
           style={{ width: `${Math.min(progressPercent, 100)}%` }}
         ></div>
       </div>
+
       <div className="flex justify-between items-center">
         <div className="flex-1">
           {editingProgress ? (
@@ -178,35 +235,35 @@ function GoalCardItem({ goal, onDeleteGoal, onUpdateProgress, formatMoney }: Goa
                 type="number"
                 value={currentAmount}
                 onChange={(e) => setCurrentAmount(Number(e.target.value))}
-                className="w-32 rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-2 py-1"
+                className="w-36 h-9 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 focus:border-cyan-500 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all"
                 min="0"
                 step="0.01"
                 autoFocus
               />
               <button
                 onClick={handleSaveProgress}
-                className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 rounded transition-colors"
+                className="p-1.5 text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 bg-green-100 dark:bg-green-900/30 rounded-lg transition-colors"
                 title="Save progress"
               >
                 <Check className="h-4 w-4" />
               </button>
               <button
                 onClick={handleCancel}
-                className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 p-1 rounded transition-colors"
+                className="p-1.5 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-lg transition-colors"
                 title="Cancel"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                {formatMoney(goal.currentAmount)} of {formatMoney(goal.targetAmount)}
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                {formatMoney(goal.currentAmount)} <span className="text-gray-500 dark:text-gray-400">of</span> {formatMoney(goal.targetAmount)}
               </span>
               {onUpdateProgress && (
                 <button
                   onClick={() => setEditingProgress(true)}
-                  className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 p-1 rounded transition-colors"
+                  className="p-1.5 text-cyan-600 hover:text-cyan-800 dark:text-cyan-400 dark:hover:text-cyan-300 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg transition-colors"
                   title="Update progress"
                 >
                   <Edit2 className="h-4 w-4" />
@@ -215,10 +272,21 @@ function GoalCardItem({ goal, onDeleteGoal, onUpdateProgress, formatMoney }: Goa
             </div>
           )}
         </div>
-        <span className="text-sm text-gray-500 dark:text-gray-400">
+        <span className={`text-lg font-bold ${isCompleted
+            ? 'text-green-600 dark:text-green-400'
+            : 'text-cyan-600 dark:text-cyan-400'
+          }`}>
           {progressPercent.toFixed(1)}%
         </span>
       </div>
+
+      {isCompleted && (
+        <div className="mt-3 p-2 bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg">
+          <p className="text-sm font-medium text-green-800 dark:text-green-300 text-center">
+            🎉 Goal Completed! Congratulations!
+          </p>
+        </div>
+      )}
     </div>
   );
 }
